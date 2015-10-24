@@ -1,7 +1,7 @@
 from tile import Tile
 
 
-class Layer(object):
+class TileMap():
 
     def __init__(self, width, height):
         self.matrix = list()
