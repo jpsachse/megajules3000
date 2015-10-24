@@ -21,14 +21,26 @@ class MockGenerator:
                     tile_type = map["map"][h][w]
                     tile = map["tiles"][str(tile_type)]
                     tile_action_type = tile.get("action")
-                    new_action=None  
-                    new_index=None
-                    if tile_action_type:          
-                        new_action = Action(tile_action_type,content=tile["content"])
-                        result.actions.append(new_action)
-                        new_index = current_action_index
+                    if tile_action_type:
+                        new_index = current_action_index                    
+                        new_action = Action(id=new_index,type=tile_action_type,content=tile["content"])
+                        result.actions.append(new_action)                 
+                        result.matrix[w][h] = Tile(image=tile["image"]
+                            , collision=tile["collision"]
+                            , action_index=new_index)
                         current_action_index +=1
-                    result.matrix[w][h] = Tile(image=tile["image"]
-                        , collision=tile["collision"]
-                        , action_index=new_index) 
+                        next_action = tile.get("next_action")
+                        previous_action = new_action
+                        while next_action:
+                            new_index = current_action_index
+                            previous_action.next_action=new_index 
+                            next_action = Action(id=new_index,type=tile_action_type,content=tile["content"])
+                            result.actions.append(next_action)               
+                            current_action_index +=1
+                            previous_action = next_action
+                            next_action = next_action.get("next_action")
+                    else:
+                        result.matrix[w][h] = Tile(image=tile["image"]
+                            , collision=tile["collision"]
+                            , action_index=None) 
             return result

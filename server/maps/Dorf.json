@@ -46,6 +46,13 @@
       "collision": false,
       "action": "showText",
       "content": "Hallo"
+    },
+    "8": {
+      "image": "images/hey_listen.png",
+      "collision": false,
+      "action": "showText",
+      "content": "Hallo",
+      "next_action": {"action": "changeMap", "content": "Alabastia"}
     }
   } 
 }

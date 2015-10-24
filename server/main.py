@@ -10,6 +10,7 @@ CORS(app)
 
 map_manager = MapManager(map_directory="maps/")
 map_manager.change_map_by_index(0)
+map_manager.change_map_by_name("Dorf")
 
 @app.route('/current_map')
 def get_map():
