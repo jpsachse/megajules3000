@@ -14,14 +14,14 @@ class TileMap():
         for w in range(0, width):
             self.matrix.append([Tile() for h in range(0, height)])
 
-    def as_image(self):
+    def as_image(self, root_directory):
         complete_image = Image.new("RGBA", 
                                 (tile_size*self.width, 
                                 tile_size*self.height))                        
         for w in range(0, self.width):
             for h in range(0, self.height):
                 current_tile = self.matrix[w][h]
-                current_tile_im = Image.open("maps/" + current_tile.image)
+                current_tile_im = Image.open(root_directory + current_tile.image)
                 box = (w*tile_size, h*tile_size) # upper left corner
                 complete_image.paste(current_tile_im, box)
         return complete_image

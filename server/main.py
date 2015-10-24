@@ -16,7 +16,7 @@ def get_map():
     map = map_manager.current_map
     response = dict()
     response["name"] = map.name
-    map.as_image().save("static/" + map.name + ".png")
+    map.as_image(map_manager.directory).save("static/" + map.name + ".png")
     response["objects"] = url_for('static', filename=map.name+'.png')
     response["map"] = map.as_collision_map()
     return json.dumps(response)
