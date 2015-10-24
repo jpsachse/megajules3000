@@ -6,24 +6,21 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 class KnowledgeFetcher():
 
     def __init__(self):
-        pass
+        self.sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+        self.prefix = "http://dbpedia.org/resource/"
+        self.sparql.setReturnFormat(JSON)
 
 
     def get_info_for(self, entity):
-        sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-        prefix = "http://dbpedia.org/resource/"
-        sparql.setQuery("PREFIX dbp: <" + prefix + "> DESCRIBE dbp:" + entity)
-        entity = prefix + entity
-        sparql.setReturnFormat(JSON)
-        results = sparql.query().convert()
+        self.sparql.setQuery("PREFIX dbp: <" + self.prefix + "> DESCRIBE dbp:" + entity)
+        entity = self.prefix + entity
+        results = self.sparql.query().convert()
         facts = []
         for fact in results["results"]["bindings"]:
             o, p, s = fact["o"], fact["p"], fact["s"]
-            if unicode(o["value"]) == entity:
+            if unicode(o["value"]) == entity or unicode(s["value"]) == entity:
                 try:
-                    print unicode(s["value"]) + "  " + unicode(o["value"]) + "  " + unicode(p["value"])
+                    facts.append((s["value"], p["value"], o["value"]))
                 except:
                     pass
-
-
-KnowledgeFetcher().get_info_for("Jules_Verne")
+        return facts
