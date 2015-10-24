@@ -7,6 +7,8 @@ function Player (options) {
     that.height = options.height;
     that.image = options.image;
     that.direction = options.direction || DIRECTION.right;
+    that.posX = options.posX || 0;
+    that.posY = options.posY || 0;
     var numberOfFrames = options.numberOfFrames || 1;
     var frameIndex = 0;
     var tickCount = 0;
@@ -23,8 +25,8 @@ function Player (options) {
            0,
            that.width / numberOfFrames,
            that.height,
-           0,
-           0,
+           that.posX - that.width / numberOfFrames / 2,
+           that.posY - that.height / 2,
            that.width / numberOfFrames,
            that.height);
         console.log("render");

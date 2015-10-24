@@ -37,7 +37,9 @@ $(document).ready(function () {
             height: 40,
             image: img,
             numberOfFrames: 10,
-            ticksPerFrame: 6
+            ticksPerFrame: 6,
+            posX: canvas.getWidth() / 2,
+            posY: canvas.getHeight() / 2
         });
         player.render();
     });
