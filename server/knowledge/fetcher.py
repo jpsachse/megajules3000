@@ -61,5 +61,32 @@ class KnowledgeFetcher():
         return results
 
 
-k = KnowledgeFetcher()
-print k.get_facts_for("Jules_Verne")
+    def get_formatted_facts_for(self, entity, label):
+        facts = list()
+        raw_facts = self.get_facts_for(entity)
+        for raw_fact in raw_facts:
+            fact = "%s %s %s" % raw_fact
+            fact = fact.replace(label, "").strip()
+            facts.append(fact)
+        return facts
+
+
+    @staticmethod
+    def accepts(fact):
+        return len(fact) > 10 and \
+            len(fact.split("/")) < 3 and \
+            not ("influences" in fact) and \
+            not ("abstract" in fact)
+
+
+    def get_filtered_facts_for(self, entity):
+        try:
+            label = self.get_label_for(self.prefix + entity)
+        except:
+            return
+        facts = list()
+        for raw_fact in self.get_formatted_facts_for(entity, label):
+            if KnowledgeFetcher.accepts(raw_fact):
+                facts.append(raw_fact)
+        return facts
+
