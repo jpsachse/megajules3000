@@ -1,6 +1,6 @@
 {
   "map": [
-    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1],
     [0, 0, 0, 0, 0],
     [0, 0, 1, 0, 0],
     [0, 0, 0, 0, 0],
@@ -12,7 +12,7 @@
       "collision": false
     },
     "1": {
-      "image": "images/house.jpg",
+      "image": "images/house.png",
       "collision": true
     }
   }
