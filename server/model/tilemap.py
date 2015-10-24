@@ -6,6 +6,7 @@ class TileMap():
     def __init__(self, width, height, name="No Name"):
         self.name = name
         self.matrix = list()
+        self.actions = list()
         self.generate_matrix(width, height)
 
     def generate_matrix(self, width, height):
@@ -32,9 +33,13 @@ class TileMap():
             complete_collision_map.append([])
             for h in range(0, self.height):
                 current_tile = self.matrix[w][h]
+                if current_tile.action:
+                    tile_action=current_tile.action_index
+                else:
+                    tile_action=current_tile.action
                 current_collision = {
                     "c": current_tile.collision,
-                    "a": current_tile.action
+                    "a": tile_action
                 }
                 complete_collision_map[w].append(current_collision)
         return complete_collision_map

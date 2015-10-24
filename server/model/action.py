@@ -1,6 +1,6 @@
 class Action():
 
-    def __init__(self):
-        self.id = 0
-        self.next_action = None
-        self.display_text = ""
+    def __init__(self, type="", next_action=None, content=""):
+        self.type = type
+        self.next_action = next_action
+        self.display_text = content
