@@ -6,7 +6,7 @@
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0]
   ],
-  "imgaes": {
+  "images": {
     "0": "some/image.jpg",
     "1": "house.jpg"
   }
