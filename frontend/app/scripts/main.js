@@ -72,27 +72,19 @@ function doStuff() {
 }
 
 function leftArrowPressed() {
-    if (currentMap.canMoveInDirection(DIRECTION.left)) {
-        goOrRotateTo(DIRECTION.left);
-    }
+    goOrRotateTo(DIRECTION.left);
 }
 
 function rightArrowPressed() {
-    if (currentMap.canMoveInDirection(DIRECTION.right)) {
-        goOrRotateTo(DIRECTION.right);
-    }
+    goOrRotateTo(DIRECTION.right);
 }
 
 function upArrowPressed() {
-    if (currentMap.canMoveInDirection(DIRECTION.up)) {
-        goOrRotateTo(DIRECTION.up);
-    }
+    goOrRotateTo(DIRECTION.up);
 }
 
 function downArrowPressed() {
-    if (currentMap.canMoveInDirection(DIRECTION.down)) {
-        goOrRotateTo(DIRECTION.down);
-    }
+    goOrRotateTo(DIRECTION.down);
 }
 
 function moveSelection(evt) {
@@ -136,8 +128,12 @@ function goOrRotateTo(direction) {
     if (!isAnimating) {
         isAnimating = true;
         if (player.direction === direction) {
-            animateMovement(direction);
-            currentMap.playerMovesIntoDirection(direction);
+            if (currentMap.canMoveInDirection(direction)) {
+                animateMovement(direction);
+                currentMap.playerMovesIntoDirection(direction);
+            } else {
+                isAnimating = false;
+            }
         } else {
             canvas.renderAll();
             player.changeDirection(direction);
