@@ -64,11 +64,11 @@ function Map (options) {
         }
     }
 
-    that.getCurrentPosX = function() {
+    that.getCurrentPlayerPosX = function() {
         return currentPosX;
     };
 
-    that.getCurrentPosY = function() {
+    that.getCurrentPlayerPosY = function() {
         return currentPosY;
     };
 
@@ -78,6 +78,60 @@ function Map (options) {
 
     that.getMapHeight = function() {
         return currentMap["map"][0].length;
+    };
+
+    that.mayInteractInDirection = function(direction) {
+        switch (direction) {
+            case DIRECTION.left:
+                return this.mayInteractAtPosition(currentPosX - 1, currentPosY);
+                break;
+            case DIRECTION.up:
+                return this.mayInteractAtPosition(currentPosX, currentPosY - 1);
+                break;
+            case DIRECTION.right:
+                return this.mayInteractAtPosition(currentPosX + 1, currentPosY);
+                break;
+            case DIRECTION.down:
+                return this.mayInteractAtPosition(currentPosX, currentPosY + 1);
+                break;
+            default:
+                console.log("mayInteractInDirection cannot cope with " + direction);
+                return false;
+                break;
+        }
+    }
+
+    that.getInteractionForDirection = function(direction) {
+        switch (direction) {
+            case DIRECTION.left:
+                return this.getInteractionForPosition(currentPosX - 1, currentPosY);
+                break;
+            case DIRECTION.up:
+                return this.getInteractionForPosition(currentPosX, currentPosY - 1);
+                break;
+            case DIRECTION.right:
+                return this.getInteractionForPosition(currentPosX + 1, currentPosY);
+                break;
+            case DIRECTION.down:
+                return this.getInteractionForPosition(currentPosX, currentPosY + 1);
+                break;
+            default:
+                console.log("getInteractionForDirection cannot cope with " + direction);
+                return false;
+                break;
+        }
+    }
+
+    that.mayInteractAtPosition = function(posX, posY) {
+        if (posX < 0 || posY < 0 || posX >= currentMap["map"] || posY >= currentMap["map"][0]) {
+            return false;
+        }
+        var interaction = that.getInteractionForPosition(posX, posY);
+        return interaction && typeof interaction != "undefined";
+    };
+
+    that.getInteractionForPosition = function(posX, posY) {
+        return currentMap["map"][posX][posY].a;
     };
 
     return that;

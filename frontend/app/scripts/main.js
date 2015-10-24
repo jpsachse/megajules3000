@@ -42,8 +42,8 @@ function loadSpritesForMap() {
         var imgInstance = new fabric.Image(img, {
                 width: instanceWidth,
                 height: instanceHeight,
-                top: TILE_SIZE * (5 - currentMap.getCurrentPosY()), //5 because 11 is the width of the displayed map
-                left: TILE_SIZE * (5 - currentMap.getCurrentPosX()),
+                top: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosY()), //5 because 11 is the width of the displayed map
+                left: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosX()),
                 originX: 'left',
                 originY: 'top'
             });
@@ -108,6 +108,15 @@ function moveSelection(evt) {
             break;
         case MOVEMENT_KEYS.down:
             downArrowPressed();
+            break;
+        case 13: //return
+            if (currentMap.mayInteractInDirection(player.direction)) {
+                console.log("Found an interaction.");
+                var action = currentMap.getInteractionForDirection(player.direction);
+                //TODO: get action from server and act accordingly
+            } else {
+                console.log("No interaction found.");
+            }
             break;
     }
     if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
