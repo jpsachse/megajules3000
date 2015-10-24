@@ -1,4 +1,5 @@
 var canvas = new fabric.Canvas('gameCanvas');
+var player;
 var isAnimating = false;
 
 $(document).ready(function () {
@@ -18,40 +19,53 @@ $(document).ready(function () {
                 originY: 'top'
             });
         imgInstance.evented = false;
-        canvas.add(imgInstance);            
+        canvas.add(imgInstance);
         canvas.renderAll();
     });
+//http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
+    fabric.util.loadImage('http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png', function(img) {
+        player = Player({
+            context: canvas.getContext("2d"),
+            width: 440,
+            height: 40,
+            image: img,
+            numberOfFrames: 10,
+            ticksPerFrame: 6
+        });
+    });
+
     window.addEventListener('keydown', moveSelection);
 });
+
+function doStuff() {
+    canvas.renderAll();
+}
 
 function leftArrowPressed() {
     if (!isAnimating) {
         isAnimating = true;
-        animateBackground('left');
+        animateMovement('left');
     }
 }
 
 function rightArrowPressed() {
     if (!isAnimating) {
         isAnimating = true;
-        animateBackground('right');
+        animateMovement('right');
     }
-        // background.animate('left', '+=50', {onChange: canvas.renderAll.bind(canvas),
-        //                                    onComplete: stopsAnimating,
-        //                                    easing: function(t, b, c, d) { return c*t/d + b; }});
 }
 
 function upArrowPressed() {
     if (!isAnimating) {
         isAnimating = true;
-        animateBackground('up');
+        animateMovement('up');
     }
 }
 
 function downArrowPressed() {
     if (!isAnimating) {
         isAnimating = true;
-        animateBackground('down');
+        animateMovement('down');
     }
 }
 
@@ -72,16 +86,27 @@ function moveSelection(evt) {
     }
 };
 
-function stopsAnimating() {
-    console.log('stops animating');
-    isAnimating = false;
-}
-
-function animateBackground(direction, stepsToBeDone) {
-    var background = canvas.getObjects()[0];
+function animateMovement(direction, stepsToBeDone) {
     if(typeof stepsToBeDone === "undefined") {
         stepsToBeDone = 50;
     }
+    animateBackgroundOneStep(direction);
+    canvas.renderAll();
+    player.animateNextStep();
+    stepsToBeDone--;
+    if (stepsToBeDone > 0) {
+        fabric.util.requestAnimFrame(function() {
+            animateMovement(direction, stepsToBeDone - 1);
+        });
+    } else {
+        isAnimating = false;
+        canvas.renderAll();
+        player.resetAnimation();
+    }
+}
+
+function animateBackgroundOneStep(direction) {
+    var background = canvas.getObjects()[0];
     switch (direction) {
         case 'left':
             background.left++;
@@ -98,15 +123,6 @@ function animateBackground(direction, stepsToBeDone) {
         default:
             console.log('animateBackground does not know how to handle ' + direction);
             break;
-    }
-    stepsToBeDone--;
-    canvas.renderAll();
-    if (stepsToBeDone > 0) {
-        fabric.util.requestAnimFrame(function() {
-            animateBackground(direction, stepsToBeDone - 1);
-        });
-    } else {
-        isAnimating = false;
     }
 }
 
@@ -130,7 +146,7 @@ function handleImage(e) {
                 originY: 'top'
             });
             imgInstance.evented = false;
-            canvas.add(imgInstance);            
+            canvas.add(imgInstance);
             canvas.renderAll();
         };
         img.src = event.target.result;
