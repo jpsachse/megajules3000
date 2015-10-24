@@ -1,19 +1,74 @@
 function Map (options) {
 
+    var PADDING = 5; //number of tiles free around the player
+
     var that = {},
         currentMap,
         currentPosX = 0,
-        currentPosY = 0;
+        currentPosY = 0,
+        currentAnimationOffsetX = 0,
+        currentAnimationOffsetY = 0,
+        currentAnimationDirection = -1,
+        mapImage,
+        mapURL;
+    that.context = options.context;
 
     that.loadFromServer = function(url, callback) {
         $.get(url, function( data ) {
             console.log(data);
             currentMap = JSON.parse(data);
-            that.mapURL = SERVER.concat(currentMap.objects);
+            mapURL = SERVER.concat(currentMap.objects);
             currentPosX = Math.ceil(currentMap["map"].length / 2) - 1;
             currentPosY = Math.ceil(currentMap["map"][0].length / 2) - 1;
-            callback();
+
+            fabric.util.loadImage(mapURL, function(img) {
+                mapImage = img;
+                imageLoadedFromServer(callback);
+            });
         });
+    };
+
+    function imageLoadedFromServer(callback) {
+        // var imgInstance = new fabric.Image(img, {
+        //         width: instanceWidth,
+        //         height: instanceHeight,
+        //         top: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosY()), //5 because 11 is the width of the displayed map
+        //         left: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosX())
+        //     });
+        that.render();
+        callback();
+    }
+
+    that.render = function() {
+        var tileSize = mapImage.width / that.getMapWidth();
+        var posX = currentAnimationOffsetX + tileSize * (currentPosX - PADDING);
+        var posY = currentAnimationOffsetY + tileSize * (currentPosY - PADDING);
+        var width = Math.min(tileSize * (2 * PADDING + 1), mapImage.width - posX);
+        var height = Math.min(tileSize * (2 * PADDING + 1), mapImage.height - posY);
+        var offsetX = 0;
+        var offsetY = 0;
+        if (posX < 0) {
+            offsetX = -posX;
+            posX = 0;
+        }
+        if (posY < 0) {
+            offsetY = -posY;
+            posY = 0;
+        }
+
+        that.context.clearRect(0,0,mapImage.width, mapImage.height);
+
+        that.context.drawImage(
+            mapImage,
+            posX,
+            posY,
+            width,
+            height,
+            offsetX,
+            offsetY,
+            width,
+            height
+           );
     };
 
     that.canMoveInDirection = function(direction) {
@@ -41,11 +96,39 @@ function Map (options) {
         }
     };
 
-    that.playerMovesIntoDirection = function(direction) {
+    that.playerStartsMovingInDirection = function(direction) {
         if (!that.canMoveInDirection(direction)) {
             throw "Cannot move in the direction " + direction;
         }
-        switch (direction) {
+        currentAnimationOffsetX = 0;
+        currentAnimationOffsetY = 0;
+        currentAnimationDirection = direction;
+    };
+
+    that.animateNextStep = function() {
+        var tileSize = mapImage.width / that.getMapWidth();
+        switch (currentAnimationDirection) {
+            case DIRECTION.left:
+                currentAnimationOffsetX-=2;
+                break;
+            case DIRECTION.up:
+                currentAnimationOffsetY-=2;
+                break;
+            case DIRECTION.right:
+                currentAnimationOffsetX+=2;
+                break;
+            case DIRECTION.down:
+                currentAnimationOffsetY+=2;
+                break;
+            default:
+                console.log("Cannot move in the direction " + currentAnimationDirection);
+                break;
+        }
+        that.render();
+    };
+
+    that.playerDidFinishMoving = function() {
+        switch (currentAnimationDirection) {
             case DIRECTION.left:
                 currentPosX--;
                 break;
@@ -59,10 +142,14 @@ function Map (options) {
                 currentPosY++;
                 break;
             default:
-                console.log("Cannot move in the direction " + direction);
+                console.log("Cannot move in the direction " + currentAnimationDirection);
                 break;
         }
-    }
+        currentAnimationOffsetX = 0;
+        currentAnimationOffsetY = 0;
+        currentAnimationDirection = -1;
+        that.render();
+    };
 
     that.getCurrentPlayerPosX = function() {
         return currentPosX;
@@ -99,7 +186,7 @@ function Map (options) {
                 return false;
                 break;
         }
-    }
+    };
 
     that.getInteractionForDirection = function(direction) {
         switch (direction) {
@@ -120,11 +207,11 @@ function Map (options) {
                 return false;
                 break;
         }
-    }
+    };
 
     that.mayInteractAtCurrentPosition = function() {
         return this.mayInteractAtPosition(currentPosX, currentPosY);
-    }
+    };
 
     that.mayInteractAtPosition = function(posX, posY) {
         if (posX < 0 || posY < 0 || posX >= currentMap["map"] || posY >= currentMap["map"][0]) {
@@ -136,7 +223,7 @@ function Map (options) {
 
     that.getInteractionForCurrentPosition = function() {
         return that.getInteractionForPosition(currentPosX, currentPosY);
-    }
+    };
 
     that.getInteractionForPosition = function(posX, posY) {
         return currentMap["map"][posX][posY].a;
