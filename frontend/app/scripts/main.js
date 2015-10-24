@@ -3,6 +3,7 @@ var player;
 var isAnimating = false;
 var movementKeyPressed = [];
 var currentMap;
+var currentAction = null;
 
 var DIRECTION = {
     'left': 0,
@@ -17,7 +18,7 @@ var MOVEMENT_KEYS = {
     'right':39,
     'down': 40
 };
-var SERVER = "http://127.0.0.1:4242";
+var SERVER = "http://localhost:4242";
 var ACTION_TYPES = {
     'SHOW_TEXT': 'showText',
     'CHANGE_MAP': 'changeMap'
@@ -25,7 +26,7 @@ var ACTION_TYPES = {
 
 $(document).ready(function () {
     loadInformationFromServer();
-    window.addEventListener('keydown', moveSelection);
+    window.addEventListener('keydown', handleKey);
     window.addEventListener('keyup', keyUp);
 });
 
@@ -71,6 +72,14 @@ function upArrowPressed() {
 
 function downArrowPressed() {
     goOrRotateTo(DIRECTION.down);
+}
+
+function handleKey(evt) {
+    if (currentAction === null) {
+        moveSelection(evt);
+    } else {
+        handleKeyWhileHandlingAction(evt);
+    }
 }
 
 function moveSelection(evt) {
@@ -176,10 +185,12 @@ function loadActionFromServer(actionID, callback) {
 }
 
 function handleAction(action) {
+    currentAction = action;
     console.log("Did load action from server: " + action);
     switch (action.type) {
         case ACTION_TYPES.SHOW_TEXT:
             console.log("Should show text: " + action.content);
+            updateDisplayedActionText();
             break;
         case ACTION_TYPES.CHANGE_MAP:
             console.log("Should load map: " + action.content);
@@ -188,4 +199,50 @@ function handleAction(action) {
             console.log("Cannot handle action of type " + action.type);
             break;
     }
+}
+
+function handleKeyWhileHandlingAction(evt) {
+    if (evt.keyCode === 13) { // "Return"-Key
+        switch (currentAction.type) {
+            case ACTION_TYPES.SHOW_TEXT:
+                updateDisplayedActionText();
+                break;
+            case ACTION_TYPES.CHANGE_MAP:
+                console.log("Should load map: " + currentAction.content);
+                break;
+            default:
+                console.log("Cannot handle action of type " + currentAction.type);
+                break;
+        }
+    }
+}
+
+function updateDisplayedActionText() {
+    $('#ingameText').empty();
+    var text = getNextTextSection(currentAction.content, 85);
+    if (text.length < currentAction.content.length) {
+        var remainingContent = currentAction.content.substring(text.length);
+        console.log("Remainig content: " + remainingContent);
+        currentAction.content = remainingContent;
+    } else {
+        currentAction.content = '';
+    }
+    if (currentAction.content.length > 0) {
+        text = text.concat(' &#x25BC;');
+    }
+    if (text.length > 0) {
+        $('#ingameText').append(text);
+    } else {
+        currentAction = null;
+    }
+}
+
+function getNextTextSection(text, maxLength) {
+    if (text.length > maxLength) {
+        var splitPos = text.indexOf(' ', maxLength - 10);
+        if (splitPos > 0) {
+            return text.substring(0, splitPos);
+        }
+    }
+    return text;
 }
