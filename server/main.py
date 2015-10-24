@@ -13,7 +13,6 @@ map_manager.change_map_by_index(0)
 
 @app.route('/current_map')
 def get_map():
-    print "dfjb"
     map = map_manager.current_map
     response = dict()
     response["name"] = map.name
