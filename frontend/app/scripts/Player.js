@@ -26,7 +26,7 @@ function Player (options) {
            that.width / numberOfFrames,
            that.height / 4,
            that.posX - that.width / numberOfFrames / 2,
-           that.posY - that.height / 2,
+           that.posY - that.height / 8,
            that.width / numberOfFrames,
            that.height / 4);
     };
