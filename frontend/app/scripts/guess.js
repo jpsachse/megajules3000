@@ -5,9 +5,10 @@ var score = 0;
 var solutionList = [];
 var factList = [];
 var gamePosition = 0;
+var progress;
 
 // const
-var GUESS_TIME = 5000;
+var GUESS_TIME = 15000;
 
 
 $('input[type=text]').on('keyup', function(e) {
@@ -17,6 +18,21 @@ $('input[type=text]').on('keyup', function(e) {
     }
 });
 initGame(["Wir", "Ihr"], [["echt cool", "und sowieso", "und so"], ["gar nicht", "genau"]]);
+
+function startProgress(){
+	window.clearInterval(progress);
+	$("#time").text(GUESS_TIME/1000);
+    progress = setInterval(function() {
+		if (parseInt($("#time").text(), 10) > 1){
+			$("#time").text(parseInt($("#time").text(), 10) - 1);
+		}
+		else {
+			window.clearInterval(progress);
+			$("#time").text(0);
+		}
+
+	}, 1000);
+}
 
 function startTimer(time, facts, position) {
 	score--;
@@ -28,10 +44,12 @@ function startTimer(time, facts, position) {
 	}
 	else {
 		showFact(facts[position]);
+		startProgress();
 		if (position < facts.length) {
 			showFunctionTimer = window.setTimeout(function() {
 				startTimer(time, facts, position + 1);
 			}, time);
+			
 		}
 	}
 	
@@ -50,7 +68,8 @@ function wrongAnswer() {
 	$("#guessDiv").removeClass("has-success");
 	$("#guessDiv").addClass("has-error");
 	$("#guessLabel").text("Wrong Answer!");
-	score--;
+	highscore--;
+	$("#highscore").text("Total Score: " + highscore);
 }
 
 function rightAnswer() {
@@ -69,6 +88,8 @@ function gameOver() {
 	$("#guessLabel").text("The Answer is");
 	$("#highscore").text("Total Score: " + highscore);
 	$("#startButton").show();
+	$("#time").hide();
+	window.clearInterval(progress);
 	if(gamePosition < solutionList.length) {
 		$("#startButton").text('Next Round');
 	} else {
@@ -87,6 +108,7 @@ function startRound(sol, fList) {
 	$("#guessLabel").text("Enter Your Guess!");
 	$("#guessDiv").removeClass("has-error");
 	$("#guessDiv").removeClass("has-success");
+	$("#time").show();
 	startTimer(GUESS_TIME, fList);
 	solution = sol;
 	score = fList.length;
@@ -104,8 +126,10 @@ function checkSolution(answer) {
 function startGame() {
 	$("#startButton").hide();
 	startRound(solutionList[gamePosition], factList[gamePosition]);
-	gamePosition++;	
+	gamePosition++;
 }
+
+
 
 function initGame(solList, factListList) {
 	solutionList = solList;
@@ -114,4 +138,11 @@ function initGame(solList, factListList) {
 
 	$('#guessDiv input').attr('disabled', true);
 	$('#guessDiv button').attr('disabled', true);
+}
+
+function startGuessingMinigame() {
+	$.get(DEFAULT_SERVER + "minigame", function(json) {
+		var object = $.parseJSON(json);
+		initGame(object.solutionList, object.factList);
+	});
 }
