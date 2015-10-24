@@ -24,7 +24,7 @@ def get_map():
 @app.route('/action/<action_id>')
 def show_user_profile(action_id):
     action = map_manager.current_map.actions[int(action_id)]
-    if action.type=="changeMap":
+    if action.type == "changeMap":
         map_manager.change_map_by_name(action.content)
     return json.dumps(action.__dict__)
 
