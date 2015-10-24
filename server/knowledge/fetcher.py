@@ -33,8 +33,8 @@ class KnowledgeFetcher():
         self.sparql.setQuery(
         "select ?label \
         where { \
-          <" + entity + "> <http://www.w3.org/2000/01/rdf-schema#label> ?label \
-          FILTER (langMatches(lang(?label),\"en\")) \
+            <" + entity + "> <http://www.w3.org/2000/01/rdf-schema#label> ?label \
+            FILTER (langMatches(lang(?label),\"en\")) \
         }")
         try:
             results = self.sparql.query().convert()
@@ -46,11 +46,20 @@ class KnowledgeFetcher():
             return entity
 
 
+    def get_facts_for(self, entity):
+        results = list()
+        facts = self.get_info_for(entity)
+        for fact in facts:
+            o, p, s = fact
+            try:
+                olabel = self.get_label_for(o)
+                plabel = self.get_label_for(p)
+                slabel = self.get_label_for(s)
+                results.append((olabel, plabel, slabel))
+            except:
+                continue
+        return results
+
+
 k = KnowledgeFetcher()
-facts = k.get_info_for("Jules_Verne")
-for fact in facts:
-    o, p, s = fact
-    try:
-        print k.get_label_for(o) + " " + k.get_label_for(p) + " " + k.get_label_for(s)
-    except:
-        pass
+print k.get_facts_for("Jules_Verne")
