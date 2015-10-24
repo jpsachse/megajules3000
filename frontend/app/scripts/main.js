@@ -2,6 +2,7 @@ var canvas = new fabric.Canvas('gameCanvas');
 var player;
 var isAnimating = false;
 var movementKeyPressed = [];
+var currentMap;
 
 var DIRECTION = {
     'left': 0,
@@ -9,27 +10,40 @@ var DIRECTION = {
     'right': 2,
     'down': 3
 };
-var CHARACTER_SIZE = 32;
+var TILE_SIZE = 32;
 var MOVEMENT_KEYS = {
     'left': 37,
     'up':   38,
     'right':39,
     'down': 40
 };
+var SERVER = "http://127.0.0.1:4242";
 
 $(document).ready(function () {
-    // var imageLoader = document.getElementById('imageLoader');
-    // imageLoader.addEventListener('change', handleImage, false);
-    fabric.util.loadImage('http://orig06.deviantart.net/27e0/f/2011/264/f/0/monster_rpg_map_central_plains_by_monstermmorpg-d4ahvot.png', function(img) {
+    loadInformationFromServer();
+    window.addEventListener('keydown', moveSelection);
+    window.addEventListener('keyup', keyUp);
+});
+
+function loadInformationFromServer() {
+    currentMap = Map();
+    currentMap.loadFromServer(SERVER.concat("/current_map"), loadSpritesForMap);
+}
+
+function loadSpritesForMap() {
+    //'http://orig06.deviantart.net/27e0/f/2011/264/f/0/monster_rpg_map_central_plains_by_monstermmorpg-d4ahvot.png'
+    fabric.util.loadImage(currentMap.mapURL, function(img) {
         var instanceWidth, instanceHeight;
         instanceWidth = img.width;
         instanceHeight = img.height;
 
+        var tileSize = instanceWidth / currentMap.getMapWidth();
+
         var imgInstance = new fabric.Image(img, {
                 width: instanceWidth,
                 height: instanceHeight,
-                top: (canvas.getHeight() / 2 - instanceHeight / 2),
-                left: (canvas.getWidth() / 2 - instanceWidth / 2),
+                top: TILE_SIZE * (5 - currentMap.getCurrentPosY()), //5 because 11 is the width of the displayed map
+                left: TILE_SIZE * (5 - currentMap.getCurrentPosX()),
                 originX: 'left',
                 originY: 'top'
             });
@@ -41,8 +55,8 @@ $(document).ready(function () {
     fabric.util.loadImage('images/sprites/player.png', function(img) {
         player = Player({
             context: canvas.getContext("2d"),
-            width: CHARACTER_SIZE * 2,
-            height: CHARACTER_SIZE * 4,
+            width: TILE_SIZE * 2,
+            height: TILE_SIZE * 4,
             image: img,
             numberOfFrames: 2,
             ticksPerFrame: 10,
@@ -51,29 +65,34 @@ $(document).ready(function () {
         });
         player.render();
     });
-
-    window.addEventListener('keydown', moveSelection);
-    window.addEventListener('keyup', keyUp);
-});
+}
 
 function doStuff() {
     canvas.renderAll();
 }
 
 function leftArrowPressed() {
-    goOrRotateTo(DIRECTION.left);
+    if (currentMap.canMoveInDirection(DIRECTION.left)) {
+        goOrRotateTo(DIRECTION.left);
+    }
 }
 
 function rightArrowPressed() {
-    goOrRotateTo(DIRECTION.right);
+    if (currentMap.canMoveInDirection(DIRECTION.right)) {
+        goOrRotateTo(DIRECTION.right);
+    }
 }
 
 function upArrowPressed() {
-    goOrRotateTo(DIRECTION.up);
+    if (currentMap.canMoveInDirection(DIRECTION.up)) {
+        goOrRotateTo(DIRECTION.up);
+    }
 }
 
 function downArrowPressed() {
-    goOrRotateTo(DIRECTION.down);
+    if (currentMap.canMoveInDirection(DIRECTION.down)) {
+        goOrRotateTo(DIRECTION.down);
+    }
 }
 
 function moveSelection(evt) {
@@ -107,6 +126,7 @@ function goOrRotateTo(direction) {
         isAnimating = true;
         if (player.direction === direction) {
             animateMovement(direction);
+            currentMap.playerMovesIntoDirection(direction);
         } else {
             canvas.renderAll();
             player.changeDirection(direction);
@@ -117,7 +137,7 @@ function goOrRotateTo(direction) {
 
 function animateMovement(direction, stepsToBeDone) {
     if(typeof stepsToBeDone === "undefined") {
-        stepsToBeDone = CHARACTER_SIZE;
+        stepsToBeDone = TILE_SIZE;
     }
     animateBackgroundOneStep(direction);
     canvas.renderAll();
@@ -143,16 +163,16 @@ function animateBackgroundOneStep(direction) {
     var background = canvas.getObjects()[0];
     switch (direction) {
         case DIRECTION.left:
-            background.left++;
+            background.left+=2;
             break;
         case DIRECTION.up:
-            background.top++;
+            background.top+=2;
             break;
         case DIRECTION.right:
-            background.left--;
+            background.left-=2;
             break;
         case DIRECTION.down:
-            background.top--;
+            background.top-=2;
             break;
         default:
             console.log('animateBackground does not know how to handle ' + direction);
