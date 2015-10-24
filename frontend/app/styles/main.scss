@@ -1,5 +1,11 @@
+#mainGameContainer {
+  margin: 0 auto;
+  width: 352px;
+}
+
 #gameCanvas {
   border: 1px solid black;
+  background-color: black;
 }
 
 #ingameText {

@@ -8,7 +8,6 @@
 
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css(.) styles/vendor.css -->
@@ -30,16 +29,9 @@
 
 
     <div class="container">
-      <div class="header text-center">
-        <h1 class="text-muted">MegaJules (WIP)</h1>
-      </div>
-
-      <div id="mainGameContainer">
-        <canvas id="gameCanvas" width="352px" height="352px"></canvas>
-        <div id="ingameText" width="352px" height="150px"></div>
-      </div>
-
-      <div id="miniGame1Container" class="hidden">
+        <div class="header">
+            <h3 class="text-muted">MegaJules (WIP)</h3>
+        </div>
         <div id="factDiv">
             <ul id="factList" class="list-group">
             </ul>
@@ -50,17 +42,17 @@
                 <input type="text" class="form-control" id="solutionInput" placeholder="It is...">
                 <span class="input-group-btn">
                     <button class="btn btn-default form-control" type="button" onclick="checkSolution(document.getElementById('solutionInput').value)">Go!</button>
-                </span>
+                </span>  
             </div>
         </div>
         <div>
             <button id="startButton" class="btn btn-primary" type="button" onclick="startGame()">Start Game</button>
         </div>
         <div>
-            <h2 id="time" class="text-center"></h2>
-            <h2 id="highscore" class="text-center bg-success">Total Score: 0</h2>
-        </div>
-      </div>
+            <h2 id="time" class="text-center"></h2>  
+            <h2 id="highscore" class="text-center bg-success">Total Score: 0</h2>  
+        </div> 
+        
     </div>
 
 
@@ -88,16 +80,12 @@
     <!-- endbuild -->
 
 
-    <!-- build:js scripts/map.js -->
-    <script src="scripts/map.js"></script>
-    <!-- endbuild -->
     <!-- build:js scripts/Player.js -->
     <script src="scripts/Player.js"></script>
     <!-- endbuild -->
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
-    <!-- endbuild -->
-    <!-- build:js scripts/guess.js -->
+    <script src="scripts/serverCommunication.js"></script>
     <script src="scripts/guess.js"></script>
     <!-- endbuild -->
 
