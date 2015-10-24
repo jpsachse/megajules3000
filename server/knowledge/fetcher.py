@@ -28,14 +28,21 @@ class KnowledgeFetcher():
 
     def get_label_for(self, entity):
         self.sparql.setQuery(
-        "   PREFIX dbp: <" + self.prefix + "> \
-            select ?label \
-            where { \
-              <http://dbpedia.org/resource/" + entity + "> <http://www.w3.org/2000/01/rdf-schema#label> ?label \
-              FILTER (langMatches(lang(?label),\"en\")) \
-            }")
+        "select ?label \
+        where { \
+          <" + entity + "> <http://www.w3.org/2000/01/rdf-schema#label> ?label \
+          FILTER (langMatches(lang(?label),\"en\")) \
+        }")
         results = self.sparql.query().convert()
-        return results["results"]["bindings"][0]["label"]["value"]
+        bindings = results["results"]["bindings"]
+        if len(bindings) >= 1:
+            return bindings[0]["label"]["value"]
+        else:
+            return entity
 
 
-print KnowledgeFetcher().get_label_for("Cottbus")
+k = KnowledgeFetcher()
+facts = k.get_info_for("Jules_Verne")
+for fact in facts:
+    o, p, s = fact
+    print k.get_label_for(o) + " " + k.get_label_for(p) + " " + k.get_label_for(s)
