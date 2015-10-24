@@ -8,6 +8,7 @@ var DIRECTION = {
     'right': 2,
     'down': 3
 };
+var CHARACTER_SIZE = 32;
 
 $(document).ready(function () {
     // var imageLoader = document.getElementById('imageLoader');
@@ -29,15 +30,15 @@ $(document).ready(function () {
         canvas.add(imgInstance);
         canvas.renderAll();
     });
-
-    fabric.util.loadImage('http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png', function(img) {
+//http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
+    fabric.util.loadImage('images/sprites/player.png', function(img) {
         player = Player({
             context: canvas.getContext("2d"),
-            width: 440,
-            height: 40,
+            width: CHARACTER_SIZE * 2,
+            height: CHARACTER_SIZE * 4,
             image: img,
-            numberOfFrames: 10,
-            ticksPerFrame: 6,
+            numberOfFrames: 2,
+            ticksPerFrame: 10,
             posX: canvas.getWidth() / 2,
             posY: canvas.getHeight() / 2
         });
@@ -90,6 +91,7 @@ function goOrRotateTo(direction) {
         if (player.direction === direction) {
             animateMovement(direction);
         } else {
+            canvas.renderAll();
             player.changeDirection(direction);
             isAnimating = false;
         }
@@ -98,7 +100,7 @@ function goOrRotateTo(direction) {
 
 function animateMovement(direction, stepsToBeDone) {
     if(typeof stepsToBeDone === "undefined") {
-        stepsToBeDone = 50;
+        stepsToBeDone = CHARACTER_SIZE;
     }
     animateBackgroundOneStep(direction);
     canvas.renderAll();

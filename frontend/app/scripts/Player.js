@@ -22,13 +22,13 @@ function Player (options) {
         that.context.drawImage(
            that.image,
            frameIndex * that.width / numberOfFrames,
-           0,
+           that.direction * that.height / 4,
            that.width / numberOfFrames,
-           that.height,
+           that.height / 4,
            that.posX - that.width / numberOfFrames / 2,
            that.posY - that.height / 2,
            that.width / numberOfFrames,
-           that.height);
+           that.height / 4);
         console.log("render");
     };
 
@@ -42,7 +42,7 @@ function Player (options) {
 
             // Go to the next frame
             frameIndex += 1;
-            frameIndex %= 4;
+            frameIndex %= numberOfFrames;
         }
     };
 
