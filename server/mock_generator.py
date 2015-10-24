@@ -17,5 +17,6 @@ class MockGenerator:
                 for h in range(0, height):
                     tile_type = map["map"][h][w]
                     tile = map["tiles"][str(tile_type)]
-                    result.matrix[w][h] = Tile(image=tile["image"], collision=tile["collision"])
+                    tile_action = tile.get("action")
+                    result.matrix[w][h] = Tile(image=tile["image"], collision=tile["collision"], action=tile.get("action"))
             return result
