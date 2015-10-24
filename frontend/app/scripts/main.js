@@ -101,7 +101,7 @@ function moveSelection(evt) {
                     //TODO: block player interaction with the game until the action is retrieved
                     console.log("Found an interaction.");
                     var actionID = currentMap.getInteractionForDirection(player.direction);
-                    loadActionFromServer(actionID, handleAction);
+                    loadActionFromServer(actionID, receiveAction);
                 } else {
                     console.log("No interaction found.");
                 }
@@ -164,7 +164,7 @@ function animateMovement(direction, stepsToBeDone) {
             var actionID = currentMap.getInteractionForCurrentPosition();
             player.resetAnimation();
             //TODO: block player interaction with the game until the action is retrieved
-            loadActionFromServer(actionID, handleAction);
+            loadActionFromServer(actionID, receiveAction);
         } else if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
             movementKeyPressed[MOVEMENT_KEYS.up] ||
             movementKeyPressed[MOVEMENT_KEYS.right] ||
@@ -176,44 +176,42 @@ function animateMovement(direction, stepsToBeDone) {
 
 function loadActionFromServer(actionID, callback) {
     $.get(SERVER.concat('/action/' + actionID), function (data) {
-        handleAction(JSON.parse(data));
+        receiveAction(JSON.parse(data));
     });
 }
 
-function handleAction(action) {
+function receiveAction(action) {
     currentAction = action;
     console.log("Did load action from server: " + action);
-    switch (action.type) {
-        case ACTION_TYPES.SHOW_TEXT:
-            console.log("Should show text: " + action.content);
-            updateDisplayedActionText();
-            break;
-        case ACTION_TYPES.CHANGE_MAP:
-            console.log("Should load map: " + action.content);
-            currentAction = null;
-            loadInformationFromServer();
-            break;
-        default:
-            console.log("Cannot handle action of type " + action.type);
-            break;
-    }
+    handleCurrentAction();
 }
 
 function handleKeyWhileHandlingAction(evt) {
     if (evt.keyCode === 13) { // "Return"-Key
-        switch (currentAction.type) {
-            case ACTION_TYPES.SHOW_TEXT:
-                updateDisplayedActionText();
-                break;
-            case ACTION_TYPES.CHANGE_MAP:
-                console.log("Should load map: " + currentAction.content);
-                currentAction = null;
-                loadInformationFromServer();
-                break;
-            default:
-                console.log("Cannot handle action of type " + currentAction.type);
-                break;
-        }
+        handleCurrentAction();
+    }
+}
+
+function handleCurrentAction() {
+    switch (currentAction.type) {
+        case ACTION_TYPES.SHOW_TEXT:
+            updateDisplayedActionText();
+            if ($('#ingameText').text().length === 0 && currentAction.content.length === 0) {
+                if (currentAction.nextAction !== null && typeof currentAction.nextAction !== "undefined") {
+                    loadActionFromServer(currentAction.nextAction, receiveAction);
+                } else {
+                    currentAction = null;
+                }
+            }
+            break;
+        case ACTION_TYPES.CHANGE_MAP:
+            console.log("Should load map: " + currentAction.content);
+            currentAction = null;
+            loadInformationFromServer();
+            break;
+        default:
+            console.log("Cannot handle action of type " + currentAction.type);
+            break;
     }
 }
 
@@ -232,8 +230,6 @@ function updateDisplayedActionText() {
     }
     if (text.length > 0) {
         $('#ingameText').append(text);
-    } else {
-        currentAction = null;
     }
 }
 
