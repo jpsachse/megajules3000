@@ -29,7 +29,6 @@ function Player (options) {
            that.posY - that.height / 2,
            that.width / numberOfFrames,
            that.height / 4);
-        console.log("render");
     };
 
     that.update = function () {
