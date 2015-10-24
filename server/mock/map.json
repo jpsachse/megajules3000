@@ -1,12 +1,10 @@
 {
-  "width": 4,
-  "height": 4,
   "name": "Paris",
-  "objects": "some/image",
+  "objects": "some/image.jpg",
   "map": [
     [{"c": true, "a": null}, {"c": true, "a": null}, {"c": true, "a": null}, {"c": true, "a": null}],
     [{"c": true, "a": null}, {"c": false, "a": null}, {"c": false, "a": null}, {"c": true, "a": null}],
-    [{"c": true, "a": null}, {"c": false, "a": null}, {"c": false, "a": null}, {"c": true, "a": null}],
+    [{"c": true, "a": null}, {"c": false, "a": 1}, {"c": false, "a": null}, {"c": true, "a": null}],
     [{"c": true, "a": null}, {"c": false, "a": null}, {"c": false, "a": null}, {"c": true, "a": null}],
     [{"c": true, "a": null}, {"c": true, "a": null}, {"c": true, "a": null}, {"c": true, "a": null}]
   ]
