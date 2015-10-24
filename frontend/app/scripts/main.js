@@ -190,6 +190,8 @@ function handleAction(action) {
             break;
         case ACTION_TYPES.CHANGE_MAP:
             console.log("Should load map: " + action.content);
+            currentAction = null;
+            loadInformationFromServer();
             break;
         default:
             console.log("Cannot handle action of type " + action.type);
@@ -205,6 +207,8 @@ function handleKeyWhileHandlingAction(evt) {
                 break;
             case ACTION_TYPES.CHANGE_MAP:
                 console.log("Should load map: " + currentAction.content);
+                currentAction = null;
+                loadInformationFromServer();
                 break;
             default:
                 console.log("Cannot handle action of type " + currentAction.type);
