@@ -27,3 +27,7 @@ class MapManager():
 
     def get_map(self, index):
         return self.maps[index]
+
+
+    def change_map(self, index):
+        self.current_map = self.maps[index]
