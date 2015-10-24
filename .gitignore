@@ -1,0 +1,6 @@
+.tmp/
+build/
+
+*.project
+*.sublime-project
+*.pyc
