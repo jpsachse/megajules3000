@@ -1,6 +1,7 @@
 var canvas = new fabric.Canvas('gameCanvas');
 var player;
 var isAnimating = false;
+var movementKeyPressed = [];
 
 var DIRECTION = {
     'left': 0,
@@ -9,6 +10,12 @@ var DIRECTION = {
     'down': 3
 };
 var CHARACTER_SIZE = 32;
+var MOVEMENT_KEYS = {
+    'left': 37,
+    'up':   38,
+    'right':39,
+    'down': 40
+};
 
 $(document).ready(function () {
     // var imageLoader = document.getElementById('imageLoader');
@@ -46,6 +53,7 @@ $(document).ready(function () {
     });
 
     window.addEventListener('keydown', moveSelection);
+    window.addEventListener('keyup', keyUp);
 });
 
 function doStuff() {
@@ -70,20 +78,29 @@ function downArrowPressed() {
 
 function moveSelection(evt) {
     switch (evt.keyCode) {
-        case 37:
+        case MOVEMENT_KEYS.left:
             leftArrowPressed();
             break;
-        case 39:
+        case MOVEMENT_KEYS.right:
             rightArrowPressed();
             break;
-        case 38:
+        case MOVEMENT_KEYS.up:
             upArrowPressed();
             break;
-        case 40:
+        case MOVEMENT_KEYS.down:
             downArrowPressed();
             break;
     }
+    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
+        movementKeyPressed[evt.keyCode] = true;
+    }
 };
+
+function keyUp(evt) {
+    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
+        movementKeyPressed[evt.keyCode] = false;
+    }
+}
 
 function goOrRotateTo(direction) {
     if (!isAnimating) {
@@ -112,8 +129,13 @@ function animateMovement(direction, stepsToBeDone) {
         });
     } else {
         isAnimating = false;
-        canvas.renderAll();
-        player.resetAnimation();
+        if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
+            movementKeyPressed[MOVEMENT_KEYS.up] ||
+            movementKeyPressed[MOVEMENT_KEYS.right] ||
+            movementKeyPressed[MOVEMENT_KEYS.down])) {
+            canvas.renderAll();
+            player.resetAnimation();
+        }
     }
 }
 

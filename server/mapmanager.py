@@ -20,9 +20,8 @@ class MapManager():
         for map_file in os.listdir(self.directory):
             if map_file.endswith(".json"):
                 map_path = self.directory + map_file
-                map_path.replace(".json", "")
                 map = generator.generate_map(map_path)
-                map.name = map_file
+                map.name = map_file.replace(".json", "")
                 result.append(map)
         return result
 
