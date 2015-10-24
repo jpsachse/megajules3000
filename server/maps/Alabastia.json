@@ -109,19 +109,19 @@
     },
     "7": {
       "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
-      "collision": true,
+      "collision": false,
       "action": "changeMap",
-      "content": "Paris",
+      "content": "Big_Dorf",
       "shows": "ausgang"
     },
     "1": {
       "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
-      "collision": true,
+      "collision": false,
       "shows": "straße"
     },
     "0": {
       "image": "images/grass.png",
-      "collision": true,
+      "collision": false,
       "shows": "grass"
     }
   }
