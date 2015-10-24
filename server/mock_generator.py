@@ -21,13 +21,14 @@ class MockGenerator:
                     tile_type = map["map"][h][w]
                     tile = map["tiles"][str(tile_type)]
                     tile_action_type = tile.get("action")
-                    new_action=None                    
+                    new_action=None  
+                    new_index=None
                     if tile_action_type:          
                         new_action = Action(tile_action_type,content=tile["content"])
                         result.actions.append(new_action)
+                        new_index = current_action_index
                         current_action_index +=1
                     result.matrix[w][h] = Tile(image=tile["image"]
                         , collision=tile["collision"]
-                        , action=new_action
-                        , action_index=current_action_index) 
+                        , action_index=new_index) 
             return result

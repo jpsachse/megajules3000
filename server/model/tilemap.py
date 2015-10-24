@@ -33,13 +33,9 @@ class TileMap():
             complete_collision_map.append([])
             for h in range(0, self.height):
                 current_tile = self.matrix[w][h]
-                if current_tile.action:
-                    tile_action=current_tile.action_index
-                else:
-                    tile_action=current_tile.action
                 current_collision = {
                     "c": current_tile.collision,
-                    "a": tile_action
+                    "a": current_tile.action_index
                 }
                 complete_collision_map[w].append(current_collision)
         return complete_collision_map
