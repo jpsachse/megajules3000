@@ -1,5 +1,6 @@
 SIZE = 50
 
+
 class Tile():
 
     def __init__(self):

@@ -1,5 +1,6 @@
 from tile import Tile
 
+
 class Layer(object):
 
     def __init__(self, width, height):
