@@ -38,16 +38,14 @@
     "6": {
       "image": "images/door.png",
       "collision": false,
-      "action": "changeMap"
+      "action": "changeMap",
+      "content": "Paris"
     },
     "7": {
       "image": "images/hey_listen.png",
       "collision": false,
-      "action": "showText"
+      "action": "showText",
+      "content": "Hallo"
     }
-  },
-  "actions": {
-    "showText": ["Potsdam", "2000 Meilen unterm Meer"],
-    "changeMap": ["Paris"]
-  }
+  } 
 }
