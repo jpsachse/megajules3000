@@ -18,6 +18,10 @@ var MOVEMENT_KEYS = {
     'down': 40
 };
 var SERVER = "http://127.0.0.1:4242";
+var ACTION_TYPES = {
+    'SHOW_TEXT': 'showText',
+    'CHANGE_MAP': 'changeMap'
+};
 
 $(document).ready(function () {
     loadInformationFromServer();
@@ -89,9 +93,10 @@ function moveSelection(evt) {
         case 13: //return
             if (!currentMap.canMoveInDirection(player.direction)) {
                 if (currentMap.mayInteractInDirection(player.direction)) {
+                    //TODO: block player interaction with the game until the action is retrieved
                     console.log("Found an interaction.");
-                    var action = currentMap.getInteractionForDirection(player.direction);
-                    //TODO: get action from server and act accordingly
+                    var actionID = currentMap.getInteractionForDirection(player.direction);
+                    loadActionFromServer(actionID, handleAction);
                 } else {
                     console.log("No interaction found.");
                 }
@@ -151,14 +156,36 @@ function animateMovement(direction, stepsToBeDone) {
         player.render();
         if (currentMap.mayInteractAtCurrentPosition()) {
             console.log("Interaction found at current position!!!");
-            var interaction = currentMap.getInteractionForCurrentPosition();
-            //TODO: get action from server and act accordingly
+            var actionID = currentMap.getInteractionForCurrentPosition();
             player.resetAnimation();
+            //TODO: block player interaction with the game until the action is retrieved
+            loadActionFromServer(actionID, handleAction);
         } else if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
             movementKeyPressed[MOVEMENT_KEYS.up] ||
             movementKeyPressed[MOVEMENT_KEYS.right] ||
             movementKeyPressed[MOVEMENT_KEYS.down])) {
             player.resetAnimation();
         }
+    }
+}
+
+function loadActionFromServer(actionID, callback) {
+    $.get(SERVER.concat('/action/' + actionID), function (data) {
+        handleAction(JSON.parse(data));
+    });
+}
+
+function handleAction(action) {
+    console.log("Did load action from server: " + action);
+    switch (action.type) {
+        case ACTION_TYPES.SHOW_TEXT:
+            console.log("Should show text: " + action.content);
+            break;
+        case ACTION_TYPES.CHANGE_MAP:
+            console.log("Should load map: " + action.content);
+            break;
+        default:
+            console.log("Cannot handle action of type " + action.type);
+            break;
     }
 }
