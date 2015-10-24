@@ -2,6 +2,13 @@ var canvas = new fabric.Canvas('gameCanvas');
 var player;
 var isAnimating = false;
 
+var DIRECTION = {
+    'left': 0,
+    'up': 1,
+    'right': 2,
+    'down': 3
+};
+
 $(document).ready(function () {
     // var imageLoader = document.getElementById('imageLoader');
     // imageLoader.addEventListener('change', handleImage, false);
@@ -22,7 +29,7 @@ $(document).ready(function () {
         canvas.add(imgInstance);
         canvas.renderAll();
     });
-//http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
+
     fabric.util.loadImage('http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png', function(img) {
         player = Player({
             context: canvas.getContext("2d"),
@@ -32,6 +39,7 @@ $(document).ready(function () {
             numberOfFrames: 10,
             ticksPerFrame: 6
         });
+        player.render();
     });
 
     window.addEventListener('keydown', moveSelection);
@@ -42,31 +50,19 @@ function doStuff() {
 }
 
 function leftArrowPressed() {
-    if (!isAnimating) {
-        isAnimating = true;
-        animateMovement('left');
-    }
+    goOrRotateTo(DIRECTION.left);
 }
 
 function rightArrowPressed() {
-    if (!isAnimating) {
-        isAnimating = true;
-        animateMovement('right');
-    }
+    goOrRotateTo(DIRECTION.right);
 }
 
 function upArrowPressed() {
-    if (!isAnimating) {
-        isAnimating = true;
-        animateMovement('up');
-    }
+    goOrRotateTo(DIRECTION.up);
 }
 
 function downArrowPressed() {
-    if (!isAnimating) {
-        isAnimating = true;
-        animateMovement('down');
-    }
+    goOrRotateTo(DIRECTION.down);
 }
 
 function moveSelection(evt) {
@@ -85,6 +81,18 @@ function moveSelection(evt) {
             break;
     }
 };
+
+function goOrRotateTo(direction) {
+    if (!isAnimating) {
+        isAnimating = true;
+        if (player.direction === direction) {
+            animateMovement(direction);
+        } else {
+            player.changeDirection(direction);
+            isAnimating = false;
+        }
+    }
+}
 
 function animateMovement(direction, stepsToBeDone) {
     if(typeof stepsToBeDone === "undefined") {
@@ -108,16 +116,16 @@ function animateMovement(direction, stepsToBeDone) {
 function animateBackgroundOneStep(direction) {
     var background = canvas.getObjects()[0];
     switch (direction) {
-        case 'left':
+        case DIRECTION.left:
             background.left++;
             break;
-        case 'up':
+        case DIRECTION.up:
             background.top++;
             break;
-        case 'right':
+        case DIRECTION.right:
             background.left--;
             break;
-        case 'down':
+        case DIRECTION.down:
             background.top--;
             break;
         default:

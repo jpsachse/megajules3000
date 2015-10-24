@@ -6,11 +6,11 @@ function Player (options) {
     that.width = options.width;
     that.height = options.height;
     that.image = options.image;
-    that.direction = options.direction || 'right';
+    that.direction = options.direction || DIRECTION.right;
     var numberOfFrames = options.numberOfFrames || 1;
     var frameIndex = 0;
     var tickCount = 0;
-    var ticksPerFrame = ticksPerFrame || 0;
+    var ticksPerFrame = options.ticksPerFrame || 0;
 
     that.render = function () {
 
@@ -57,6 +57,13 @@ function Player (options) {
     that.resetAnimation = function() {
         frameIndex = 0;
         tickCount = 0;
+        that.render();
+    }
+
+    that.changeDirection = function(newDirection) {
+        frameIndex = 0;
+        tickCount = 0;
+        that.direction = newDirection;
         that.render();
     }
 
