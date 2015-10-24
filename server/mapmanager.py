@@ -17,10 +17,12 @@ class MapManager():
 
         generator = MockGenerator()
         for map_file in os.listdir(self.directory):
-            map_path = self.directory + map_file
-            map = generator.generate_map(map_path)
-            map.name = map_file
-            self.maps.append(map)
+            if map_file.endswith(".json"):
+                map_path = self.directory + map_file
+                map_path.replace(".json", "")
+                map = generator.generate_map(map_path)
+                map.name = map_file
+                self.maps.append(map)
 
 
     def get_map(self, index):
