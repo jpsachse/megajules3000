@@ -2,6 +2,8 @@ var canvas = new fabric.Canvas('gameCanvas');
 var player;
 var isAnimating = false;
 var movementKeyPressed = [];
+var currentMap;
+var currentAction = null;
 
 var DIRECTION = {
     'left': 0,
@@ -9,40 +11,39 @@ var DIRECTION = {
     'right': 2,
     'down': 3
 };
-var CHARACTER_SIZE = 32;
+var TILE_SIZE = 32;
 var MOVEMENT_KEYS = {
     'left': 37,
     'up':   38,
     'right':39,
     'down': 40
 };
+var SERVER = "http://localhost:4242";
+var ACTION_TYPES = {
+    'SHOW_TEXT': 'showText',
+    'CHANGE_MAP': 'changeMap'
+};
 
 $(document).ready(function () {
-    // var imageLoader = document.getElementById('imageLoader');
-    // imageLoader.addEventListener('change', handleImage, false);
-    fabric.util.loadImage('http://orig06.deviantart.net/27e0/f/2011/264/f/0/monster_rpg_map_central_plains_by_monstermmorpg-d4ahvot.png', function(img) {
-        var instanceWidth, instanceHeight;
-        instanceWidth = img.width;
-        instanceHeight = img.height;
+    loadInformationFromServer();
+    window.addEventListener('keydown', handleKey);
+    window.addEventListener('keyup', keyUp);
+});
 
-        var imgInstance = new fabric.Image(img, {
-                width: instanceWidth,
-                height: instanceHeight,
-                top: (canvas.getHeight() / 2 - instanceHeight / 2),
-                left: (canvas.getWidth() / 2 - instanceWidth / 2),
-                originX: 'left',
-                originY: 'top'
-            });
-        imgInstance.evented = false;
-        canvas.add(imgInstance);
-        canvas.renderAll();
+function loadInformationFromServer() {
+    currentMap = Map({
+        context: canvas.getContext("2d")
     });
+    currentMap.loadFromServer(SERVER.concat("/current_map"), loadSpritesForPlayer);
+}
+
+function loadSpritesForPlayer() {
 //http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
     fabric.util.loadImage('images/sprites/player.png', function(img) {
         player = Player({
             context: canvas.getContext("2d"),
-            width: CHARACTER_SIZE * 2,
-            height: CHARACTER_SIZE * 4,
+            width: TILE_SIZE * 2,
+            height: TILE_SIZE * 4,
             image: img,
             numberOfFrames: 2,
             ticksPerFrame: 10,
@@ -51,13 +52,6 @@ $(document).ready(function () {
         });
         player.render();
     });
-
-    window.addEventListener('keydown', moveSelection);
-    window.addEventListener('keyup', keyUp);
-});
-
-function doStuff() {
-    canvas.renderAll();
 }
 
 function leftArrowPressed() {
@@ -76,7 +70,18 @@ function downArrowPressed() {
     goOrRotateTo(DIRECTION.down);
 }
 
+function handleKey(evt) {
+    if (currentAction === null) {
+        moveSelection(evt);
+    } else {
+        handleKeyWhileHandlingAction(evt);
+    }
+}
+
 function moveSelection(evt) {
+    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
+        movementKeyPressed[evt.keyCode] = true;
+    }
     switch (evt.keyCode) {
         case MOVEMENT_KEYS.left:
             leftArrowPressed();
@@ -90,9 +95,18 @@ function moveSelection(evt) {
         case MOVEMENT_KEYS.down:
             downArrowPressed();
             break;
-    }
-    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
-        movementKeyPressed[evt.keyCode] = true;
+        case 13: //return
+            if (!currentMap.canMoveInDirection(player.direction)) {
+                if (currentMap.mayInteractInDirection(player.direction)) {
+                    //TODO: block player interaction with the game until the action is retrieved
+                    console.log("Found an interaction.");
+                    var actionID = currentMap.getInteractionForDirection(player.direction);
+                    loadActionFromServer(actionID, receiveAction);
+                } else {
+                    console.log("No interaction found.");
+                }
+            }
+            break;
     }
 };
 
@@ -106,84 +120,125 @@ function goOrRotateTo(direction) {
     if (!isAnimating) {
         isAnimating = true;
         if (player.direction === direction) {
-            animateMovement(direction);
+            if (currentMap.canMoveInDirection(direction)) {
+                currentMap.playerStartsMovingInDirection(direction);
+                animateMovement(direction);
+            } else {
+                isAnimating = false;
+            }
         } else {
-            canvas.renderAll();
+            currentMap.render();
             player.changeDirection(direction);
             isAnimating = false;
+            window.setTimeout(function() {
+                if (movementKeyPressed[MOVEMENT_KEYS.left]) {
+                    goOrRotateTo(DIRECTION.left);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.up]) {
+                    goOrRotateTo(DIRECTION.up);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.right]) {
+                    goOrRotateTo(DIRECTION.right);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.down]) {
+                    goOrRotateTo(DIRECTION.down);
+                }
+            }, 100);
         }
     }
 }
 
 function animateMovement(direction, stepsToBeDone) {
     if(typeof stepsToBeDone === "undefined") {
-        stepsToBeDone = CHARACTER_SIZE;
+        stepsToBeDone = TILE_SIZE;
     }
-    animateBackgroundOneStep(direction);
-    canvas.renderAll();
+    currentMap.animateNextStep();
     player.animateNextStep();
-    stepsToBeDone--;
     if (stepsToBeDone > 0) {
         fabric.util.requestAnimFrame(function() {
-            animateMovement(direction, stepsToBeDone - 1);
+            animateMovement(direction, stepsToBeDone - 2);
         });
     } else {
         isAnimating = false;
-        if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
+        currentMap.playerDidFinishMoving();
+        player.render();
+        if (currentMap.mayInteractAtCurrentPosition()) {
+            console.log("Interaction found at current position!!!");
+            var actionID = currentMap.getInteractionForCurrentPosition();
+            player.resetAnimation();
+            //TODO: block player interaction with the game until the action is retrieved
+            loadActionFromServer(actionID, receiveAction);
+        } else if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
             movementKeyPressed[MOVEMENT_KEYS.up] ||
             movementKeyPressed[MOVEMENT_KEYS.right] ||
             movementKeyPressed[MOVEMENT_KEYS.down])) {
-            canvas.renderAll();
             player.resetAnimation();
         }
     }
 }
 
-function animateBackgroundOneStep(direction) {
-    var background = canvas.getObjects()[0];
-    switch (direction) {
-        case DIRECTION.left:
-            background.left++;
+function loadActionFromServer(actionID, callback) {
+    $.get(SERVER.concat('/action/' + actionID), function (data) {
+        receiveAction(JSON.parse(data));
+    });
+}
+
+function receiveAction(action) {
+    currentAction = action;
+    console.log("Did load action from server: " + action);
+    handleCurrentAction();
+}
+
+function handleKeyWhileHandlingAction(evt) {
+    if (evt.keyCode === 13) { // "Return"-Key
+        handleCurrentAction();
+    }
+}
+
+function handleCurrentAction() {
+    switch (currentAction.type) {
+        case ACTION_TYPES.SHOW_TEXT:
+            updateDisplayedActionText();
+            if ($('#ingameText').text().length === 0 && currentAction.content.length === 0) {
+                if (currentAction.nextAction !== null && typeof currentAction.nextAction !== "undefined") {
+                    loadActionFromServer(currentAction.nextAction, receiveAction);
+                } else {
+                    currentAction = null;
+                }
+            }
             break;
-        case DIRECTION.up:
-            background.top++;
-            break;
-        case DIRECTION.right:
-            background.left--;
-            break;
-        case DIRECTION.down:
-            background.top--;
+        case ACTION_TYPES.CHANGE_MAP:
+            console.log("Should load map: " + currentAction.content);
+            currentAction = null;
+            loadInformationFromServer();
             break;
         default:
-            console.log('animateBackground does not know how to handle ' + direction);
+            console.log("Cannot handle action of type " + currentAction.type);
             break;
     }
 }
 
-function handleImage(e) {
-    var reader = new FileReader();
-    reader.onload = function (event) {
-        var img = new Image();
-        img.onload = function () {
+function updateDisplayedActionText() {
+    $('#ingameText').empty();
+    var text = getNextTextSection(currentAction.content, 85);
+    if (text.length < currentAction.content.length) {
+        var remainingContent = currentAction.content.substring(text.length);
+        console.log("Remainig content: " + remainingContent);
+        currentAction.content = remainingContent;
+    } else {
+        currentAction.content = '';
+    }
+    if (currentAction.content.length > 0) {
+        text = text.concat(' &#x25BC;');
+    }
+    if (text.length > 0) {
+        $('#ingameText').append(text);
+    }
+}
 
-            var instanceWidth, instanceHeight;
-
-            instanceWidth = img.width;
-            instanceHeight = img.height;
-
-            var imgInstance = new fabric.Image(img, {
-                width: instanceWidth,
-                height: instanceHeight,
-                top: (canvas.getHeight() / 2 - instanceHeight / 2),
-                left: (canvas.getWidth() / 2 - instanceWidth / 2),
-                originX: 'left',
-                originY: 'top'
-            });
-            imgInstance.evented = false;
-            canvas.add(imgInstance);
-            canvas.renderAll();
-        };
-        img.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
+function getNextTextSection(text, maxLength) {
+    if (text.length > maxLength) {
+        var splitPos = text.indexOf(' ', maxLength - 10);
+        if (splitPos > 0) {
+            return text.substring(0, splitPos);
+        }
+    }
+    return text;
 }

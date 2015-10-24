@@ -1,0 +1,128 @@
+{
+  "map": [
+    [57,42,42,42,42,42,42,42,7,7,42,42,42,42,42,42,42,42,42,58],
+    [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,41],
+    [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,41],
+    [41,0,0,62,6,6,61,0,1,1,0,0,0,62,6,6,61,0,0,41],
+    [41,0,0,65,63,63,64,0,1,1,0,0,0,65,63,63,64,0,0,41],
+    [41,0,0,52,5,5,51,0,1,1,0,0,0,52,5,5,51,0,0,41],
+    [41,0,0,32,4,3,31,0,1,1,0,0,0,32,4,3,31,0,0,41],
+    [41,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,62,6,6,6,6,61,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,65,63,63,63,63,64,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,52,5,5,5,5,51,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,32,5,4,5,5,31,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41],
+    [73,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,74]
+  ],
+    "tiles": {
+    "57": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (57).png",
+      "collision": true,
+      "shows": "upper left edge"
+    },
+    "58": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (58).png",
+      "collision": true,
+      "shows": "upper right edge"
+    },
+    "73": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (73).png",
+      "collision": true,
+      "shows": "lower left edge"
+    },
+    "74": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (74).png",
+      "collision": true,
+      "shows": "lower right edge"
+    },
+    "42": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (42).png",
+      "collision": true,
+      "shows": "horizontal edge"
+    },
+    "41": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (41).png",
+      "collision": true,
+      "shows": "vertical edge"
+    },
+    "3": {
+      "image": "images/walls/bottom.png",
+      "collision": true,
+      "shows": "wall"
+    },
+    "31": {
+      "image": "images/walls/right_bottom.png",
+      "collision": true,
+      "shows": "wall"
+    },
+    "32": {
+      "image": "images/walls/left_bottom.png",
+      "collision": true,
+      "shows": "wall"
+    },
+    "4": {
+      "image": "images/walls/door.png",
+      "collision": false
+    },
+    "6": {
+      "image": "images/roof/top.png",
+      "collision": true
+    },
+    "61": {
+      "image": "images/roof/right_top.png",
+      "collision": true
+    },
+    "62": {
+      "image": "images/roof/left_top.png",
+      "collision": true
+    },
+    "63": {
+      "image": "images/roof/roof_red.png",
+      "collision": true
+    },
+    "64": {
+      "image": "images/roof/right.png",
+      "collision": true
+    },
+    "65": {
+      "image": "images/roof/left.png",
+      "collision": true
+    },
+    "5": {
+      "image": "images/walls/window.png",
+      "collision": true
+    },
+    "51": {
+      "image": "images/walls/window_right.png",
+      "collision": true
+    },
+    "52": {
+      "image": "images/walls/window_left.png",
+      "collision": true
+    },
+    "7": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+      "collision": false,
+      "action": "changeMap",
+      "content": "Big_Dorf",
+      "shows": "ausgang"
+    },
+    "1": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+      "collision": false,
+      "shows": "straße"
+    },
+    "0": {
+      "image": "images/grass.png",
+      "collision": false,
+      "shows": "grass"
+    }
+  }
+}
