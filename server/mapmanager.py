@@ -15,6 +15,7 @@ class MapManager():
         if self.directory == None or not os.path.exists(self.directory):
             raise Exception("Invalid maps directory")
 
+        result = list()
         generator = MockGenerator()
         for map_file in os.listdir(self.directory):
             if map_file.endswith(".json"):
@@ -22,7 +23,8 @@ class MapManager():
                 map_path.replace(".json", "")
                 map = generator.generate_map(map_path)
                 map.name = map_file
-                self.maps.append(map)
+                result.append(map)
+        return result
 
 
     def get_map(self, index):
