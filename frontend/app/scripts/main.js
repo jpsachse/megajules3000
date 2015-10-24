@@ -139,6 +139,7 @@ function animateMovement(direction, stepsToBeDone) {
         currentMap.playerDidFinishMoving();
         player.render();
         if (currentMap.mayInteractAtCurrentPosition()) {
+            console.log("Interaction found at current position!!!");
             var interaction = currentMap.getInteractionForCurrentPosition();
             //TODO: get action from server and act accordingly
             player.resetAnimation();

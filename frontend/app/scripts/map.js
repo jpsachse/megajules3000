@@ -218,7 +218,7 @@ function Map (options) {
             return false;
         }
         var interaction = that.getInteractionForPosition(posX, posY);
-        return interaction && typeof interaction != "undefined";
+        return interaction !== null && typeof interaction != "undefined";
     };
 
     that.getInteractionForCurrentPosition = function() {
