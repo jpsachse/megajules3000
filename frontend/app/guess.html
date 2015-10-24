@@ -37,14 +37,21 @@
             </ul>
         </div>
         <div id="guessDiv" class="form-div">
-            <label id="guessLabel" class="control-label" for="solutionInput">Enter Your Guess!</label>
+            <label id="guessLabel" class="control-label" for="solutionInput">Click the blue button, please.</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="solutionInput" placeholder="It is...">
                 <span class="input-group-btn">
                     <button class="btn btn-default form-control" type="button" onclick="checkSolution(document.getElementById('solutionInput').value)">Go!</button>
                 </span>  
-            </div>    
+            </div>
         </div>
+        <div>
+            <button id="startButton" class="btn btn-primary" type="button" onclick="startGame()">Start Game</button>
+        </div>
+        <div>
+            <h2 id="highscore" class="text-center bg-success">Total Score: 0</h2>  
+        </div> 
+        
     </div>
 
 
