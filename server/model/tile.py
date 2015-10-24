@@ -1,4 +1,4 @@
-SIZE = 50
+SIZE = 32
 
 
 class Tile():
