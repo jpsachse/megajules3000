@@ -2,12 +2,18 @@
   "map": [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0],
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0]
   ],
-  "images": {
-    "0": "some/image.jpg",
-    "1": "house.jpg"
+  "tiles": {
+    "0": {
+      "image": "images/white.png",
+      "collision": false
+    },
+    "1": {
+      "image": "images/house.jpg",
+      "collision": true
+    }
   }
 }
