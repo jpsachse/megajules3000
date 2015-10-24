@@ -1,0 +1,19 @@
+{
+  "map": [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0]
+  ],
+  "tiles": {
+    "0": {
+      "image": "images/white.png",
+      "collision": false
+    },
+    "1": {
+      "image": "images/house.jpg",
+      "collision": true
+    }
+  }
+}
