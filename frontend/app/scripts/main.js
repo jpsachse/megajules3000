@@ -70,6 +70,9 @@ function downArrowPressed() {
 }
 
 function moveSelection(evt) {
+    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
+        movementKeyPressed[evt.keyCode] = true;
+    }
     switch (evt.keyCode) {
         case MOVEMENT_KEYS.left:
             leftArrowPressed();
@@ -95,9 +98,6 @@ function moveSelection(evt) {
             }
             break;
     }
-    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
-        movementKeyPressed[evt.keyCode] = true;
-    }
 };
 
 function keyUp(evt) {
@@ -120,6 +120,17 @@ function goOrRotateTo(direction) {
             currentMap.render();
             player.changeDirection(direction);
             isAnimating = false;
+            window.setTimeout(function() {
+                if (movementKeyPressed[MOVEMENT_KEYS.left]) {
+                    goOrRotateTo(DIRECTION.left);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.up]) {
+                    goOrRotateTo(DIRECTION.up);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.right]) {
+                    goOrRotateTo(DIRECTION.right);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.down]) {
+                    goOrRotateTo(DIRECTION.down);
+                }
+            }, 100);
         }
     }
 }
