@@ -1,7 +1,8 @@
-
-
+SIZE = 50
 
 class Tile():
 
     def __init__(self):
-        pass
+        self.collision = False
+        self.action = None
+        self.image = None
