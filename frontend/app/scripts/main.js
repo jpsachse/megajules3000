@@ -26,31 +26,13 @@ $(document).ready(function () {
 });
 
 function loadInformationFromServer() {
-    currentMap = Map();
-    currentMap.loadFromServer(SERVER.concat("/current_map"), loadSpritesForMap);
+    currentMap = Map({
+        context: canvas.getContext("2d")
+    });
+    currentMap.loadFromServer(SERVER.concat("/current_map"), loadSpritesForPlayer);
 }
 
-function loadSpritesForMap() {
-    //'http://orig06.deviantart.net/27e0/f/2011/264/f/0/monster_rpg_map_central_plains_by_monstermmorpg-d4ahvot.png'
-    fabric.util.loadImage(currentMap.mapURL, function(img) {
-        var instanceWidth, instanceHeight;
-        instanceWidth = img.width;
-        instanceHeight = img.height;
-
-        var tileSize = instanceWidth / currentMap.getMapWidth();
-
-        var imgInstance = new fabric.Image(img, {
-                width: instanceWidth,
-                height: instanceHeight,
-                top: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosY()), //5 because 11 is the width of the displayed map
-                left: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosX()),
-                originX: 'left',
-                originY: 'top'
-            });
-        imgInstance.evented = false;
-        canvas.add(imgInstance);
-        canvas.renderAll();
-    });
+function loadSpritesForPlayer() {
 //http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
     fabric.util.loadImage('images/sprites/player.png', function(img) {
         player = Player({
@@ -88,6 +70,9 @@ function downArrowPressed() {
 }
 
 function moveSelection(evt) {
+    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
+        movementKeyPressed[evt.keyCode] = true;
+    }
     switch (evt.keyCode) {
         case MOVEMENT_KEYS.left:
             leftArrowPressed();
@@ -113,9 +98,6 @@ function moveSelection(evt) {
             }
             break;
     }
-    if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
-        movementKeyPressed[evt.keyCode] = true;
-    }
 };
 
 function keyUp(evt) {
@@ -129,15 +111,26 @@ function goOrRotateTo(direction) {
         isAnimating = true;
         if (player.direction === direction) {
             if (currentMap.canMoveInDirection(direction)) {
+                currentMap.playerStartsMovingInDirection(direction);
                 animateMovement(direction);
-                currentMap.playerMovesIntoDirection(direction);
             } else {
                 isAnimating = false;
             }
         } else {
-            canvas.renderAll();
+            currentMap.render();
             player.changeDirection(direction);
             isAnimating = false;
+            window.setTimeout(function() {
+                if (movementKeyPressed[MOVEMENT_KEYS.left]) {
+                    goOrRotateTo(DIRECTION.left);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.up]) {
+                    goOrRotateTo(DIRECTION.up);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.right]) {
+                    goOrRotateTo(DIRECTION.right);
+                } else if (movementKeyPressed[MOVEMENT_KEYS.down]) {
+                    goOrRotateTo(DIRECTION.down);
+                }
+            }, 100);
         }
     }
 }
@@ -146,77 +139,26 @@ function animateMovement(direction, stepsToBeDone) {
     if(typeof stepsToBeDone === "undefined") {
         stepsToBeDone = TILE_SIZE;
     }
-    animateBackgroundOneStep(direction);
-    canvas.renderAll();
+    currentMap.animateNextStep();
     player.animateNextStep();
-    stepsToBeDone--;
     if (stepsToBeDone > 0) {
         fabric.util.requestAnimFrame(function() {
-            animateMovement(direction, stepsToBeDone - 1);
+            animateMovement(direction, stepsToBeDone - 2);
         });
     } else {
         isAnimating = false;
+        currentMap.playerDidFinishMoving();
+        player.render();
         if (currentMap.mayInteractAtCurrentPosition()) {
+            console.log("Interaction found at current position!!!");
             var interaction = currentMap.getInteractionForCurrentPosition();
             //TODO: get action from server and act accordingly
-            canvas.renderAll();
             player.resetAnimation();
         } else if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
             movementKeyPressed[MOVEMENT_KEYS.up] ||
             movementKeyPressed[MOVEMENT_KEYS.right] ||
             movementKeyPressed[MOVEMENT_KEYS.down])) {
-            canvas.renderAll();
             player.resetAnimation();
         }
     }
-}
-
-function animateBackgroundOneStep(direction) {
-    //TODO: I don't know, why I have to move it 2 pixels...
-    var background = canvas.getObjects()[0];
-    switch (direction) {
-        case DIRECTION.left:
-            background.left+=2;
-            break;
-        case DIRECTION.up:
-            background.top+=2;
-            break;
-        case DIRECTION.right:
-            background.left-=2;
-            break;
-        case DIRECTION.down:
-            background.top-=2;
-            break;
-        default:
-            console.log('animateBackground does not know how to handle ' + direction);
-            break;
-    }
-}
-
-function handleImage(e) {
-    var reader = new FileReader();
-    reader.onload = function (event) {
-        var img = new Image();
-        img.onload = function () {
-
-            var instanceWidth, instanceHeight;
-
-            instanceWidth = img.width;
-            instanceHeight = img.height;
-
-            var imgInstance = new fabric.Image(img, {
-                width: instanceWidth,
-                height: instanceHeight,
-                top: (canvas.getHeight() / 2 - instanceHeight / 2),
-                left: (canvas.getWidth() / 2 - instanceWidth / 2),
-                originX: 'left',
-                originY: 'top'
-            });
-            imgInstance.evented = false;
-            canvas.add(imgInstance);
-            canvas.renderAll();
-        };
-        img.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
 }

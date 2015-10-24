@@ -15,10 +15,6 @@ function Player (options) {
     var ticksPerFrame = options.ticksPerFrame || 0;
 
     that.render = function () {
-
-        // Clear the canvas
-        //that.context.clearRect(0, 0, that.width, that.height);
-        // Draw the animation
         that.context.drawImage(
            that.image,
            frameIndex * that.width / numberOfFrames,
@@ -33,7 +29,7 @@ function Player (options) {
 
     that.update = function () {
 
-        tickCount += 1;
+        tickCount += 2;
 
         if (tickCount > ticksPerFrame) {
 
