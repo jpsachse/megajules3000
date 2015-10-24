@@ -24,4 +24,17 @@ class TileMap():
                 current_tile_im = Image.open("mock/"+current_tile.image)
                 box = (w*tile_size, h*tile_size) # upper left corner
                 complete_image.paste(current_tile_im, box)
-        complete_image.save('mock/images/tilemap_image.png')
+        return complete_image
+    
+    def as_collision_map(self):
+        complete_collision_map = list()
+        for w in range(0, self.width):
+            complete_collision_map.append([])
+            for h in range(0, self.height):
+                current_tile = self.matrix[w][h]
+                current_collision = {
+                    "c": current_tile.collision,
+                    "a": current_tile.action
+                }
+                complete_collision_map[w].append(current_collision)
+        return complete_collision_map
