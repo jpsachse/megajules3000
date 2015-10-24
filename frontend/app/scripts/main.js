@@ -160,6 +160,7 @@ function animateMovement(direction, stepsToBeDone) {
 }
 
 function animateBackgroundOneStep(direction) {
+    //TODO: I don't know, why I have to move it 2 pixels...
     var background = canvas.getObjects()[0];
     switch (direction) {
         case DIRECTION.left:
