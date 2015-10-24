@@ -110,12 +110,14 @@ function moveSelection(evt) {
             downArrowPressed();
             break;
         case 13: //return
-            if (currentMap.mayInteractInDirection(player.direction)) {
-                console.log("Found an interaction.");
-                var action = currentMap.getInteractionForDirection(player.direction);
-                //TODO: get action from server and act accordingly
-            } else {
-                console.log("No interaction found.");
+            if (!currentMap.canMoveInDirection(player.direction)) {
+                if (currentMap.mayInteractInDirection(player.direction)) {
+                    console.log("Found an interaction.");
+                    var action = currentMap.getInteractionForDirection(player.direction);
+                    //TODO: get action from server and act accordingly
+                } else {
+                    console.log("No interaction found.");
+                }
             }
             break;
     }
@@ -158,7 +160,12 @@ function animateMovement(direction, stepsToBeDone) {
         });
     } else {
         isAnimating = false;
-        if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
+        if (currentMap.mayInteractAtCurrentPosition()) {
+            var interaction = currentMap.getInteractionForCurrentPosition();
+            //TODO: get action from server and act accordingly
+            canvas.renderAll();
+            player.resetAnimation();
+        } else if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
             movementKeyPressed[MOVEMENT_KEYS.up] ||
             movementKeyPressed[MOVEMENT_KEYS.right] ||
             movementKeyPressed[MOVEMENT_KEYS.down])) {

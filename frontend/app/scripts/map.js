@@ -122,6 +122,10 @@ function Map (options) {
         }
     }
 
+    that.mayInteractAtCurrentPosition = function() {
+        return this.mayInteractAtPosition(currentPosX, currentPosY);
+    }
+
     that.mayInteractAtPosition = function(posX, posY) {
         if (posX < 0 || posY < 0 || posX >= currentMap["map"] || posY >= currentMap["map"][0]) {
             return false;
@@ -129,6 +133,10 @@ function Map (options) {
         var interaction = that.getInteractionForPosition(posX, posY);
         return interaction && typeof interaction != "undefined";
     };
+
+    that.getInteractionForCurrentPosition = function() {
+        return that.getInteractionForPosition(currentPosX, currentPosY);
+    }
 
     that.getInteractionForPosition = function(posX, posY) {
         return currentMap["map"][posX][posY].a;
