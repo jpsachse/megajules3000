@@ -54,10 +54,6 @@ function loadSpritesForPlayer() {
     });
 }
 
-function doStuff() {
-    canvas.renderAll();
-}
-
 function leftArrowPressed() {
     goOrRotateTo(DIRECTION.left);
 }
