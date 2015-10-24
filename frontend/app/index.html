@@ -30,12 +30,37 @@
 
 
     <div class="container">
-      <div class="header">
-        <h3 class="text-muted">MegaJules (WIP)</h3>
+      <div class="header text-center">
+        <h1 class="text-muted">MegaJules (WIP)</h1>
       </div>
 
-      <canvas id="gameCanvas" width="352px" height="352px"></canvas>
-      <div id="ingameText" width="352px" height="150px"></div>
+      <div id="mainGameContainer">
+        <canvas id="gameCanvas" width="352px" height="352px"></canvas>
+        <div id="ingameText" width="352px" height="150px"></div>
+      </div>
+
+      <div id="miniGame1Container" class="hidden">
+        <div id="factDiv">
+            <ul id="factList" class="list-group">
+            </ul>
+        </div>
+        <div id="guessDiv" class="form-div">
+            <label id="guessLabel" class="control-label" for="solutionInput">Click the blue button, please.</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="solutionInput" placeholder="It is...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default form-control" type="button" onclick="checkSolution(document.getElementById('solutionInput').value)">Go!</button>
+                </span>
+            </div>
+        </div>
+        <div>
+            <button id="startButton" class="btn btn-primary" type="button" onclick="startGame()">Start Game</button>
+        </div>
+        <div>
+            <h2 id="time" class="text-center"></h2>
+            <h2 id="highscore" class="text-center bg-success">Total Score: 0</h2>
+        </div>
+      </div>
     </div>
 
 
@@ -71,6 +96,9 @@
     <!-- endbuild -->
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/guess.js -->
+    <script src="scripts/guess.js"></script>
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
