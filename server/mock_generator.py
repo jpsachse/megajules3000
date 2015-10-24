@@ -6,11 +6,8 @@ from model.tile import Tile
 
 class MockGenerator:
 
-    def __init__(self, filename):
-        self.filename = filename
-
-    def generate(self):
-        with open(self.filename) as f:
+    def generate_map(self, map_file):
+        with open(map_file) as f:
             map = json.load(f)
             width = len(map["map"])
             height = len(map["map"][0])
