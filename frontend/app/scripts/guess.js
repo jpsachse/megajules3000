@@ -125,7 +125,6 @@ function GuessMe() {
 		$("#guessDiv").removeClass("has-error");
 		$("#guessDiv").removeClass("has-success");
 		$("#startButton").text('Go!');
-		$("#highscore").text("Total Score: 0");
 	}
 
 	function loadAndCheckSolution() {
@@ -155,6 +154,7 @@ function GuessMe() {
 		score = 0;
 
 		$("#guessMeHintsHeadline").addClass("hidden");
+		$("#highscore").text("Total Score: 0");
 		resetGUI();
 		$('#guessDiv input').attr('disabled', true);
 		$('#guessDiv button').attr('disabled', true);
