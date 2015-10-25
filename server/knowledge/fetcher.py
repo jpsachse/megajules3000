@@ -7,7 +7,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 
 class KnowledgeFetcher():
 
-    FACT_CACHE_FILE = "../tmp/fact.cache"
+    FACT_CACHE_FILE = "./tmp/fact.cache"
 
     def __init__(self):
         self.sparql = SPARQLWrapper("http://dbpedia.org/sparql")

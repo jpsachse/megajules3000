@@ -41,7 +41,7 @@ class MapManager():
 
     def takeFactFromCurrentLevel(self):
         if not self.current_map.entity in self.knowledgePool:
-            self.knowledgePool[self.current_map.entity] = self.knowledge_fetcher.get_facts_for(self.current_map.entity)
+            self.knowledgePool[self.current_map.entity] = self.knowledge_fetcher.get_filtered_facts_for(self.current_map.entity)
 
         return self.knowledgePool[self.current_map.entity].pop()
 
