@@ -107,6 +107,7 @@
 	    },
 	    "100": {
 	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+<<<<<<< HEAD
           "collision": false,
           "action": "startMinigame",
           "content": {
