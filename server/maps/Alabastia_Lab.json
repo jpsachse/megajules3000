@@ -185,7 +185,7 @@
 	      "content" : "Hey!#newline#Don't touch my stuff!"
 	    },
 	    "33": {
-	      "image": "images/interior/chair_facing_right.png",
+	      "image": "images/interior/chair_facing_right_with_floor.png",
 	      "collision": false
 	    }
   	}
