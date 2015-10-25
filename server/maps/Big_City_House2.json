@@ -1,0 +1,198 @@
+{
+    "entity": "Jules_Verne",
+    "startX": 6,
+    "startY": 8,
+  	"map": [
+        [30,30,30,30,30,30,30,30,30,30,30],
+        [30,30,30,30,30,30,30,30,30,30,30],
+        [30,30,2,5,5,5,5,5,6,30,30],
+        [30,30,3,11,0,0,0,0,3,30,30],
+        [30,30,3,0,0,0,0,0,3,30,30],
+        [30,30,3,0,0,0,0,0,3,30,30],
+        [30,30,3,0,0,100,100,0,3,30,30],
+        [30,30,3,0,100,0,100,0,3,30,30],
+        [30,30,4,5,5,10,5,5,7,30,30],
+        [30,30,30,30,30,30,30,30,30,30,30],
+        [30,30,30,30,30,30,30,30,30,30,30]
+    ],
+	"tiles": {
+	    "0": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": false,
+	      "shows": "floor"
+	    },
+	    "100": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": false,
+          "action": "showText",
+          "content": "Nice that you are here. I can teach you a lot of things.",
+	      "shows": "floor"
+	    },
+	    "1": {
+	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+	      "collision": false,
+	      "shows": "straße"
+	    },
+	    "2": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": true,
+	      "shows": "upper left edge"
+	    },
+	    "3": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": true,
+	      "shows": "vertical edge"
+	    },
+	    "4": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": true,
+	      "shows": "lower left edge"
+	    },
+	    "5": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": true,
+	      "shows": "horizontal edge"
+	    },
+	    "6": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": true,
+	      "shows": "upper right edge"
+	    },
+	    "7": {
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
+	      "collision": true,
+	      "shows": "lower right edge"
+	    },
+	    "8": {
+	      "image": "images/walls/door.png",
+		  "collision": false,
+	      "shows": "door"
+	    },
+	    "9": {
+	      "image": "images/sign.png",
+		  "collision": true,
+	      "action": "showFact",
+	      "content": "BlaBla",
+	      "shows": "sign"
+	    },
+	    "10": {
+	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+	      "collision": false,
+	      "action": "changeMap",
+	      "content": "Big_City",
+	      "shows": "exit"
+	    },
+	    "11": {
+	      "image": "images/npc.png",
+	      "collision": true,
+	      "action": "showText",
+	      "content": "Hello, nice to see you.",
+	      "shows": "npc with fact",
+	      "next_action": {  "action": "showFact",
+                            "content": "",
+                            "next_action": 
+                                {   "action": "showText",
+                                    "content": "Interesting, isn't it? And this: ",
+                                    "next_action": 
+                                    {   
+                                        "action": "showFact",
+                                        "content": "",
+                                         "next_action": 
+                                        {   "action": "showText",
+                                            "content": " You are really nice. Thank you for visiting me."
+                                        }
+                                    }
+                                }
+                            }
+	    },
+	    "12": {
+	      "image": "images/walls/left_bottom.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "13": {
+	      "image": "images/walls/bottom.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "14": {
+	      "image": "images/walls/right_bottom.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "15": {
+	      "image": "images/walls/right.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "16": {
+	      "image": "images/walls/wall.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "17": {
+	      "image": "images/walls/window.png",
+	      "collision": true
+	    },
+	    "18": {
+	      "image": "images/walls/right.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "19": {
+	      "image": "images/walls/left_top.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "20": {
+	      "image": "images/walls/top.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "21": {
+	      "image": "images/walls/right_top.png",
+	      "collision": true,
+	      "shows": "wall"
+	    },
+	    "22": {
+	      "image": "images/roof/top.png",
+	      "collision": true
+	    },
+	    "22": {
+	      "image": "images/roof/left_bottom.png",
+	      "collision": true
+	    },
+	    "23": {
+	      "image": "images/roof/roof_red.png",
+	      "collision": true
+	    },
+	    "24": {
+	      "image": "images/roof/right_bottom.png",
+	      "collision": true
+	    },
+	    "25": {
+	      "image": "images/roof/left_top.png",
+	      "collision": true
+	    },
+	    "26": {
+	      "image": "images/roof/top.png",
+	      "collision": true
+	    },
+	    "27": {
+	      "image": "images/roof/right_top.png",
+	      "collision": true
+	    },
+	    "28": {
+	      "image": "images/walls/window_left.png",
+	      "collision": true
+	    },
+	    "29": {
+	      "image": "images/walls/window_right.png",
+	      "collision": true
+	    },
+	    "30": {
+	      "image": "images/black.png",
+	      "collision": true
+	    }
+  	}
+}
