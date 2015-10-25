@@ -3,12 +3,14 @@ from PIL import Image
 
 class TileMap():
 
-    def __init__(self, width, height, name="No Name"):
+    def __init__(self, width, height, name="No Name", startX = -1, startY = -1):
         self.name = name
         self.matrix = list()
         self.actions = list()
         self.facts = ["I'm a fact. A default fact."]
         self.generate_matrix(width, height)
+        self.startX = startX
+        self.startY = startY
 
     def generate_matrix(self, width, height):
         self.width = width
@@ -17,9 +19,9 @@ class TileMap():
             self.matrix.append([Tile() for h in range(0, height)])
 
     def as_image(self, root_directory):
-        complete_image = Image.new("RGBA", 
-                                (tile_size*self.width, 
-                                tile_size*self.height))                        
+        complete_image = Image.new("RGBA",
+                                (tile_size*self.width,
+                                tile_size*self.height))
         for w in range(0, self.width):
             for h in range(0, self.height):
                 current_tile = self.matrix[w][h]
@@ -27,7 +29,7 @@ class TileMap():
                 box = (w*tile_size, h*tile_size) # upper left corner
                 complete_image.paste(current_tile_im, box)
         return complete_image
-    
+
     def as_collision_map(self):
         complete_collision_map = list()
         for w in range(0, self.width):

@@ -6,7 +6,7 @@ function Player (options) {
     that.width = options.width;
     that.height = options.height;
     that.image = options.image;
-    that.direction = options.direction || DIRECTION.right;
+    that.direction = options.direction || DIRECTION.down;
     that.posX = options.posX || 0;
     that.posY = options.posY || 0;
     var numberOfFrames = options.numberOfFrames || 1;

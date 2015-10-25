@@ -12,7 +12,10 @@ class MockGenerator:
             width = len(map["map"])
             height = len(map["map"][0])
 
-            result = TileMap(width, height)
+            if 'startX' in map and 'startY' in map:
+                result = TileMap(width, height, "No Name", map["startX"], map["startY"])
+            else:
+                result = TileMap(width, height)
             result.actions = []
             current_action_index = 0
             for w in range(0, width):
