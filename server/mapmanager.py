@@ -28,14 +28,14 @@ class MapManager():
 
     def get_map_by_index(self, index):
         return self.maps[index]
-        
+
     def get_map_by_name(self, map_name):
         for map in self.maps:
             if map.name == map_name:
                 return map
-                
+
     def change_map_by_index(self, index):
         self.current_map = self.maps[index]
-        
+
     def change_map_by_name(self, name):
         self.current_map = self.get_map_by_name(name)

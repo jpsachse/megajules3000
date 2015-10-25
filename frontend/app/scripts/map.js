@@ -15,11 +15,10 @@ function Map (options) {
 
     that.loadFromServer = function(url, callback) {
         $.get(url, function( data ) {
-            console.log(data);
             currentMap = JSON.parse(data);
             mapURL = SERVER.concat(currentMap.objects);
-            currentPosX = Math.ceil(currentMap["map"].length / 2) - 1;
-            currentPosY = Math.ceil(currentMap["map"][0].length / 2) - 1;
+            currentPosX = currentMap.startX || Math.ceil(currentMap["map"].length / 2) - 1;
+            currentPosY = currentMap.startY || Math.ceil(currentMap["map"][0].length / 2) - 1;
 
             fabric.util.loadImage(mapURL, function(img) {
                 mapImage = img;
