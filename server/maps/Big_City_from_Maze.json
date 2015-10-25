@@ -41,7 +41,7 @@
 		[3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,92,0,0,0,0,0,3],
 		[4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,7]
 	],
-	"startX" : 1,
+	"startX" : 38,
 	"startY" : 20,
 	"entity" : "Angela_Merkel",
 	"tiles": {
@@ -154,7 +154,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc/npc_concrete.png",
+	      "image": "images/npc/npc.png",
 	      "collision": true,
 	      "action": "showText",
 	      "content": "Hello, play a game.",
