@@ -157,9 +157,8 @@
 	      "image": "images/npc/npc_concrete.png",
 	      "collision": true,
 	      "action": "showText",
-	      "content": "Hello, play a game.",
-	      "shows": "load_minigame_NPC",
-	      "next_action": {"action": "startMinigame","content": {"name": "guessMe", "entities":["Sigmar_Gabriel","Leipzig_University","Helmut_Kohl","Germany"]}, "next_action": {"action": "changeMap", "content": "Alabastia"}}
+	      "content": "Hello, how are you?",
+	      "shows": "load_minigame_NPC"
 	    },
 	    "12": {
 	      "image": "images/walls/left_bottom.png",
