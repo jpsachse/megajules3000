@@ -79,7 +79,7 @@
 	      "image": "images/npc/npc.png",
 	      "collision": true,
 	      "action": "showText",
-	      "content": "Hello.newline#In this game it's all about one entity. Scattered around are random facts about it.#newline#Can you guess it?",
+	      "content": "Hello.#newline#In this game it's all about one entity. Scattered around are random facts about it.#newline#Can you guess it? Here's the first one:",
 	      "shows": "npc with fact",
 	      "next_action": {"action": "showFact","content": ""}
 	    },
