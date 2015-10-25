@@ -103,21 +103,21 @@
 	      "shows": "door"
 	    },
 	    "9": {
-	      "image": "images/hey_listen.png",
+	      "image": "images/sign.png",
 		  "collision": true,
 	      "action": "showFact",
 	      "content": "",
 	      "shows": "sign"
 	    },
 	    "91": {
-	      "image": "images/hey_listen.png",
+	      "image": "images/sign.png",
 		  "collision": true,
 	      "action": "showText",
 	      "content": "Closed!",
 	      "shows": "sign"
 	    },
 	    "92": {
-	      "image": "images/hey_listen.png",
+	      "image": "images/sign.png",
 		  "collision": true,
 	      "action": "showText",
 	      "content": "Told ya!",
@@ -131,7 +131,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/hey_listen.png",
+	      "image": "images/npc.png",
 	      "collision": true,
 	      "action": "showText",
 	      "content": "Hello, play a game.",
