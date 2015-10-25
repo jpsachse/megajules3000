@@ -1,6 +1,7 @@
 import os.path
 
 from mock_generator import MockGenerator
+from knowledge.fetcher import KnowledgeFetcher
 
 
 class MapManager():
@@ -9,6 +10,8 @@ class MapManager():
         self.directory = map_directory
         self.current_map = initial_map
         self.maps = self.retrieve_maps()
+        self.knowledge = KnowledgeFetcher()
+        self.knowledgePool = {}
 
 
     def retrieve_maps(self):
@@ -35,8 +38,11 @@ class MapManager():
                 return map
     
     def takeFactFromCurrentLevel(self):
-        return "No Fact"
-        #self.current_map.entity
+        if not self.current_map.entity in self.knowledgePool:
+            self.knowledgePool[self.current_map.entity] \
+            = self.knowledge.get_facts_for(self.current_map.entity)
+
+        return self.knowledgePool[self.current_map.entity].pop()
     
     def change_map_by_index(self, index):
         self.current_map = self.maps[index]

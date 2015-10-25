@@ -4,7 +4,6 @@ from flask import Flask, url_for
 from flask.ext.cors import CORS
 
 from mapmanager import MapManager
-from knowledge.fetcher import KnowledgeFetcher
 
 app = Flask(__name__)
 CORS(app)
@@ -32,7 +31,6 @@ def show_user_profile(action_id):
     action = map_manager.current_map.actions[int(action_id)]
     if action.type == "changeMap":
         map_manager.change_map_by_name(action.content)
-        # Do: If new Level, change current entity
     elif action.type == "showFact" and action.content == "":
         try: 
             action.content = map_manager.takeFactFromCurrentLevel()
