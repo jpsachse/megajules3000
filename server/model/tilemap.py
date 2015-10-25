@@ -7,6 +7,7 @@ class TileMap():
         self.name = name
         self.matrix = list()
         self.actions = list()
+        self.facts = ["I'm a fact. A default fact."]
         self.generate_matrix(width, height)
         self.startX = startX
         self.startY = startY
