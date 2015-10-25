@@ -90,14 +90,14 @@
 	      "shows": "npc with fact",
 	      "next_action": {  "action": "showFact",
                             "content": "",
-                            "next_action": 
+                            "next_action":
                                 {   "action": "showText",
                                     "content": "Interesting, isn't it? And this: ",
-                                    "next_action": 
-                                    {   
+                                    "next_action":
+                                    {
                                         "action": "showFact",
                                         "content": "",
-                                         "next_action": 
+                                         "next_action":
                                         {   "action": "showText",
                                             "content": " You are really nice. Thank you for visiting me."
                                         }
