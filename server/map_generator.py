@@ -5,7 +5,8 @@ from model.tile import Tile
 from model.action import Action
 
 
-class MockGenerator:
+class MapGenerator:
+
     def generate_map(self, map_file):
         with open(map_file) as f:
             map = json.load(f)
