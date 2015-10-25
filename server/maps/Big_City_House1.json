@@ -131,10 +131,6 @@
 	      "shows": "wall"
 	    },
 	    "22": {
-	      "image": "images/roof/top.png",
-	      "collision": true
-	    },
-	    "22": {
 	      "image": "images/roof/left_bottom.png",
 	      "collision": true
 	    },
