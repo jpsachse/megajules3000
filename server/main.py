@@ -13,7 +13,7 @@ for filename in os.listdir("static"):
     if filename.endswith(".png"):
         os.remove("static/" + filename)
 
-map_manager = MapManager(map_directory="maps/", initial_map="Alabastia")
+map_manager = MapManager(map_directory="maps/", initial_map="Alabastia_Lab")
 
 @app.route('/current_map')
 def get_map():

@@ -169,7 +169,7 @@
 	      "collision": true
 	    },
 	    "31": {
-	      "image": "images/hey_listen.png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": false,
 	      "action" : "showText",
 	      "content" : "Greetings, Human! #newline#You should talk to the professor to know more about the world you just jumped in."
