@@ -105,19 +105,27 @@ function GuessMe() {
 	}
 
 	function startRound(sol, fList) {
-		$('#factList').empty();
+		resetGUI();
 		$('#guessDiv input').attr('disabled', false);
 		$('#guessDiv button').attr('disabled', false);
-		$('#guessMeSolutionInput').val("");
-		$('#guessMeSolutionInput').attr('placeholder', "It is...");
 		$('#guessMeSolutionInput').focus();
 		$("#guessLabel").text("Enter Your Guess!");
-		$("#guessDiv").removeClass("has-error");
-		$("#guessDiv").removeClass("has-success");
 		$("#time").show();
+		$("#guessMeHintsHeadline").fadeIn().removeClass('hidden');
 		startTimer(GUESS_TIME, fList);
 		solution = sol;
 		score = fList.length;
+	}
+
+	function resetGUI() {
+		$('#factList').empty();
+		$('#guessMeSolutionInput').val("");
+		$('#guessMeSolutionInput').attr('placeholder', "It is...");
+		$("#guessLabel").text("Click the button to start the game.");
+		$("#guessDiv").removeClass("has-error");
+		$("#guessDiv").removeClass("has-success");
+		$("#startButton").text('Go!');
+		$("#highscore").text("Total Score: 0");
 	}
 
 	function loadAndCheckSolution() {
@@ -143,11 +151,16 @@ function GuessMe() {
 		solutionList = solList;
 		factList = factListList;
 		gamePosition = 0;
+		highscore = 0;
+		score = 0;
 
+		$("#guessMeHintsHeadline").addClass("hidden");
+		resetGUI();
 		$('#guessDiv input').attr('disabled', true);
 		$('#guessDiv button').attr('disabled', true);
 
-		$("#startButton").click(startGame);
+		$("#startButton").off('click');
+		$("#startButton").on('click', startGame);
 		$("#guessMeCheckResultBtn").click(loadAndCheckSolution);
 	}
 
