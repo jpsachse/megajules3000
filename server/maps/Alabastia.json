@@ -74,6 +74,13 @@
       "image": "images/walls/door.png",
       "collision": false
     },
+    "48": {
+      "image": "images/walls/door.png",
+      "collision": false,
+      "action": "changeMap",
+      "content": "Alabastia_Lab",
+      "shows": "labEntrance"
+    },
     "6": {
       "image": "images/roof/top.png",
       "collision": true

@@ -1,5 +1,4 @@
-import json
-import random
+import json, random, os
 
 from flask import Flask, url_for
 from flask.ext.cors import CORS
@@ -8,6 +7,11 @@ from map_manager import MapManager
 
 app = Flask(__name__)
 CORS(app)
+
+print "Cleaning up temporary files..."
+for filename in os.listdir("static"):
+    if filename.endswith(".png"):
+        os.remove("static/" + filename)
 
 map_manager = MapManager(map_directory="maps/", initial_map="Alabastia")
 
