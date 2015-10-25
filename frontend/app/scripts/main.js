@@ -39,6 +39,7 @@ $(document).ready(function () {
 
 function loadInformationFromServer() {
     isLoading = true;
+    updateLoadingLED();
     currentMap = Map({
         context: canvas.getContext("2d")
     });
@@ -60,6 +61,7 @@ function loadSpritesForPlayer() {
         });
         player.render();
         isLoading = false;
+        updateLoadingLED();
     });
 }
 
@@ -184,16 +186,9 @@ function animateMovement(direction, stepsToBeDone) {
     }
 }
 
-function startDisplayingLoadingAnimation() {
-
-}
-
-function stopDisplayingLoadingAnimation() {
-
-}
-
 function loadActionFromServer(actionID, callback) {
     isLoading = true;
+    updateLoadingLED();
     $.get(SERVER.concat('/action/' + actionID), function (data) {
         receiveAction(JSON.parse(data));
     });
@@ -214,6 +209,7 @@ function handleKeyWhileHandlingAction(evt) {
 
 function handleCurrentAction() {
     isLoading = false;
+    updateLoadingLED();
     switch (currentAction.type) {
         case ACTION_TYPES.SHOW_TEXT:
         case ACTION_TYPES.SHOW_FACT:
@@ -294,4 +290,18 @@ function miniGameDidFinish(result) {
     $.get(SERVER.concat(route), function(data) {
         receiveAction(JSON.parse(data));
     });
+}
+
+function updateLoadingLED() {
+    var led = $("#loadingLED");
+    if (isLoading) {
+        if (led.hasClass('loadingLEDOn')) {
+            led.removeClass('loadingLEDOn').addClass('loadingLEDOff');
+        } else {
+            led.removeClass('loadingLEDOff').addClass('loadingLEDOn');
+        }
+        window.setTimeout(updateLoadingLED, Math.floor(Math.random() * 500));
+    } else {
+        led.removeClass('loadingLEDOn').addClass('loadingLEDOff');
+    }
 }
