@@ -219,8 +219,8 @@ function handleCurrentAction() {
         case ACTION_TYPES.SHOW_FACT:
             updateDisplayedActionText();
             if ($('#ingameText').text().length === 0 && currentAction.content.length === 0) {
-                if (currentAction.nextAction !== null && typeof currentAction.nextAction !== "undefined") {
-                    loadActionFromServer(currentAction.nextAction, receiveAction);
+                if (currentAction.next_action !== null && typeof currentAction.next_action !== "undefined") {
+                    loadActionFromServer(currentAction.next_action, receiveAction);
                 } else {
                     currentAction = null;
                 }

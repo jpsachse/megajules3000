@@ -9,7 +9,7 @@ from map_manager import MapManager
 app = Flask(__name__)
 CORS(app)
 
-map_manager = MapManager(map_directory="maps/", initial_map="Alabastia")
+map_manager = MapManager(map_directory="maps/", initial_map="Big_City")
 
 @app.route('/current_map')
 def get_map():
