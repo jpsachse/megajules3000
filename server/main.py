@@ -3,7 +3,7 @@ import json
 from flask import Flask, url_for
 from flask.ext.cors import CORS
 
-from mapmanager import MapManager
+from map_manager import MapManager
 
 app = Flask(__name__)
 CORS(app)

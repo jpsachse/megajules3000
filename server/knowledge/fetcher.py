@@ -79,7 +79,7 @@ class KnowledgeFetcher():
         raw_facts = self.get_facts_for(entity)
         for raw_fact in raw_facts:
             fact = "%s %s %s" % raw_fact
-            fact = fact.replace(label, "").strip()
+            fact = fact.replace(label, "???").strip()
             facts.append(fact)
         return facts
 

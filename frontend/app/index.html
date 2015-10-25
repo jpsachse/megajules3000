@@ -32,7 +32,7 @@
     <div class="container">
       <div id="mainGameContainer" position="relative">
         <div class="header text-center">
-          <h1 class="text-muted">MegaJules<i>3000</i></h1>
+          <h1 class="text-muted engraved">MegaJules<i>3000</i></h1>
         </div>
         <canvas id="gameCanvas" width="352px" height="352px"></canvas>
         <div id="ingameText" width="352px" height="150px"></div>
@@ -40,18 +40,20 @@
       </div>
 
       <div id="guessMe" class="hidden">
+        <h1>Guess Me!</h1>
         <div id="factDiv">
-            <ul id="factList" class="list-group">
-            </ul>
+          <h2 id="guessMeHintsHeadline" class="hidden">Hints:</h1>
+          <ul id="factList" class="list-group">
+          </ul>
         </div>
         <div id="guessDiv" class="form-div">
-            <label id="guessLabel" class="control-label" for="solutionInput">Click the blue button, please.</label>
-            <div class="input-group">
-                <input type="text" class="form-control" id="guessMeSolutionInput" placeholder="It is...">
-                <span class="input-group-btn">
-                    <button id="guessMeCheckResultBtn" class="btn btn-default form-control" type="button">Go!</button>
-                </span>
-            </div>
+          <label id="guessLabel" class="control-label" for="solutionInput">Click the button to start the game.</label>
+          <div class="input-group">
+              <input type="text" class="form-control" id="guessMeSolutionInput" placeholder="It is...">
+              <span class="input-group-btn">
+                  <button id="guessMeCheckResultBtn" class="btn btn-default form-control" type="button">Go!</button>
+              </span>
+          </div>
         </div>
         <div>
             <button id="startButton" class="btn btn-primary" type="button">Start Game</button>
