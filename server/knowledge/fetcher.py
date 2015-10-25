@@ -87,9 +87,10 @@ class KnowledgeFetcher():
     @staticmethod
     def accepts(fact):
         return len(fact) > 10 and \
-               len(fact.split("/")) < 3 and \
-               not ("influences" in fact) and \
-               not ("abstract" in fact)
+                len(fact.split("/")) < 3 and \
+                not ("influences" in fact) and \
+                not ("abstract" in fact) and \
+                not ("redirect" in fact)
 
 
     def get_filtered_facts_for(self, entity):
