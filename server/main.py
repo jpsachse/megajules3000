@@ -55,6 +55,19 @@ def show_user_profile(action_id):
                 action.content["facts"].append(entity_facts)
     return json.dumps(action.__dict__)
 
+@app.route('/minigame/<action_id>/<result>')
+def evaluate_minigame(action_id, result):
+    action = map_manager.current_map.actions[int(action_id)]
+    next_action = map_manager.current_map.actions[action.next_action]
+    print result
+    if int(result) > 0: #TODO: real evaluation
+        if next_action.type == "changeMap":
+            map_manager.change_map_by_name(next_action.content)
+            return json.dumps(next_action.__dict__)
+        else:
+            raise Exception("There shall be a changeMap after a minigame!")
+    else:
+        return json.dumps(next_action.__dict__)
 
 if __name__ == '__main__':
     app.run(port=4242, debug=True)

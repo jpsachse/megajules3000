@@ -285,9 +285,13 @@ function startMinigame() {
 }
 
 function miniGameDidFinish(result) {
-    //TODO: handle the result
     var miniGameInfo = currentAction.content;
     $('#'+miniGameInfo.name).hide();
     $('#mainGameContainer').show();
+    var route = '/minigame/' + currentAction.id + '/' + result.highscore;
     currentAction = null;
+    console.log(route);
+    $.get(SERVER.concat(route), function(data) {
+        receiveAction(JSON.parse(data));
+    });
 }
