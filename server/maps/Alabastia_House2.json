@@ -111,7 +111,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc/npc.png",
+	      "image": "images/npc/npc_wood.png",
 	      "collision": true,
 	      "action": "showText",
           "content": "Hello. Welcome to Alabastia. We love to have visitors. Feel free to talk to us. We have al lot to tell.#newline#...#newline#I love playing card games. Maybe we can play memory together. ",
