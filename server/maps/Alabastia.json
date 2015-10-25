@@ -2,7 +2,7 @@
   "entity": "Angela_Merkel",
   "map": [
     [57,42,42,42,42,42,42,42,7,7,42,42,42,42,42,42,42,42,42,58],
-    [41,0,8,0,0,0,0,0,1,1,10,0,0,0,0,0,0,0,0,41],
+    [41,0,8,0,0,0,0,0,1,1,10,0,0,100,0,0,0,0,0,41],
     [41,0,0,0,0,0,0,10,1,1,0,0,8,0,0,0,0,0,0,41],
     [41,0,0,62,6,6,61,0,1,1,0,0,0,62,6,6,61,0,0,41],
     [41,0,0,65,66,66,64,0,1,1,0,0,0,65,66,66,64,0,0,41],
@@ -17,7 +17,7 @@
     [41,0,0,13,14,0,0,1,1,0,65,66,66,66,66,64,1,1,0,41],
     [41,0,0,0,0,0,0,1,1,0,52,5,5,5,5,51,1,1,0,41],
     [41,0,0,0,0,0,0,1,1,0,32,5,4,5,5,31,1,1,0,41],
-    [41,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,101,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,41],
     [41,0,11,12,0,0,1,0,1,1,1,1,1,1,1,1,1,1,0,41],
     [41,0,13,14,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,41],
     [73,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,74]
@@ -74,6 +74,13 @@
       "image": "images/walls/door.png",
       "collision": false
     },
+    "48": {
+      "image": "images/walls/door.png",
+      "collision": false,
+      "action": "changeMap",
+      "content": "Alabastia_Lab",
+      "shows": "labEntrance"
+    },
     "6": {
       "image": "images/roof/top.png",
       "collision": true
@@ -115,11 +122,19 @@
       "collision": true
     },
     "7": {
-      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
-      "collision": false,
-      "action": "changeMap",
-      "content": "Big_City",
-      "shows": "ausgang"
+        "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+        "shows": "ausgang",
+        "collision": false,
+        "action": "showText",
+        "content": "You will leave this place. Dead or alive. We will see.",
+        "next_action": {      
+              "action": "startMinigame",
+              "content": {"name": "guessMe", "entities":["Jules_Verne"]},
+              "next_action": {
+                    "action": "changeMap",
+                    "content": "Big_City"
+               }   
+        }
     },
     "1": {
       "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
@@ -165,6 +180,18 @@
       "action": "startMinigame",
       "content": {"name": "guessMe", "entities":["Angela_Merkel", "Thor_Heyerdahl"]},
       "shows": "load_minigame"
-    }
+    },
+    "100": {
+      "image": "images/sign.png",
+      "collision": true,
+      "action": "showText",
+      "content": "If you leave, you will be tested.#newline#Be prepared!"
+    },
+    "101": {
+      "image": "images/sign.png",
+      "collision": true,
+      "action": "showFact",
+      "content":""
+     }
   }
 }
