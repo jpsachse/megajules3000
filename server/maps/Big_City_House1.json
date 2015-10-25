@@ -25,32 +25,32 @@
 	      "shows": "straße"
 	    },
 	    "2": {
-	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (64).png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": true,
 	      "shows": "upper left edge"
 	    },
 	    "3": {
-	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (64).png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": true,
 	      "shows": "vertical edge"
 	    },
 	    "4": {
-	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (64).png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": true,
 	      "shows": "lower left edge"
 	    },
 	    "5": {
-	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (64).png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": true,
 	      "shows": "horizontal edge"
 	    },
 	    "6": {
-	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (64).png.png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": true,
 	      "shows": "upper right edge"
 	    },
 	    "7": {
-	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (64).png",
+	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": true,
 	      "shows": "lower right edge"
 	    },
