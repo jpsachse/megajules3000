@@ -19,9 +19,10 @@ def get_map():
         response['startX'] = map.startX
     if map.startY >= 0:
         response['startY'] = map.startY
-    response["name"] = map.name
-    map.as_image(map_manager.directory).save("static/" + map.name + ".png")
-    response["objects"] = url_for('static', filename=map.name+'.png')
+    cache_buster = map.name + str(random.randint(0, 1000000000))
+    response["name"] = cache_buster
+    map.as_image(map_manager.directory).save("static/" + cache_buster + ".png")
+    response["objects"] = url_for('static', filename=cache_buster + '.png')
     response["map"] = map.as_collision_map()
     return json.dumps(response)
 
@@ -38,7 +39,6 @@ def show_user_profile(action_id):
     elif action.type == "startMinigame":
         if action.content["name"] == "guessMe":
             facts = {}
-            print action.content
             for entity in action.content["entities"]:
                 facts[entity] = []
                 temp_facts = map_manager.knowledge_fetcher.get_filtered_facts_for(entity)
@@ -50,7 +50,6 @@ def show_user_profile(action_id):
             action.content["facts"] = []
             for entity, entity_facts in facts.iteritems():
                 name = map_manager.knowledge_fetcher.get_label_for(entity)
-                print name
                 action.content["solutions"].append(name)
                 action.content["facts"].append(entity_facts)
     return json.dumps(action.__dict__)
