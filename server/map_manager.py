@@ -6,12 +6,16 @@ from knowledge.fetcher import KnowledgeFetcher
 
 class MapManager():
 
-    def __init__(self, map_directory="maps/", initial_map=None):
+    def __init__(self, initial_map, map_directory="maps/"):
         self.directory = map_directory
-        self.current_map = initial_map
+        self.current_map = None
         self.maps = self.retrieve_maps()
         self.knowledge_fetcher = KnowledgeFetcher()
         self.knowledgePool = {}
+        if type(initial_map) == int:
+            self.change_map_by_index(initial_map)
+        else:
+            self.change_map_by_name(initial_map)
 
     def retrieve_maps(self):
         if self.directory == None or not os.path.exists(self.directory):
