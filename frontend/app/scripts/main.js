@@ -4,6 +4,7 @@ var isAnimating = false;
 var movementKeyPressed = [];
 var currentMap;
 var currentAction = null;
+var isLoading = true;
 
 var DIRECTION = {
     'left': 0,
@@ -26,7 +27,8 @@ var ACTION_TYPES = {
 };
 var MINIGAMES = {
     'GUESSME': 'guessMe'
-}
+};
+var TEXT_SEPARATOR = '#newline#';
 
 $(document).ready(function () {
     loadInformationFromServer();
@@ -35,6 +37,7 @@ $(document).ready(function () {
 });
 
 function loadInformationFromServer() {
+    isLoading = true;
     currentMap = Map({
         context: canvas.getContext("2d")
     });
@@ -55,6 +58,7 @@ function loadSpritesForPlayer() {
             posY: canvas.getHeight() / 2
         });
         player.render();
+        isLoading = false;
     });
 }
 
@@ -83,6 +87,9 @@ function handleKey(evt) {
 }
 
 function moveSelection(evt) {
+    if (isLoading) {
+        return;
+    }
     if (evt.keyCode >= MOVEMENT_KEYS.left && evt.keyCode <= MOVEMENT_KEYS.down) {
         movementKeyPressed[evt.keyCode] = true;
     }
@@ -102,12 +109,9 @@ function moveSelection(evt) {
         case 13: //return
             if (!currentMap.canMoveInDirection(player.direction)) {
                 if (currentMap.mayInteractInDirection(player.direction)) {
-                    //TODO: block player interaction with the game until the action is retrieved
-                    console.log("Found an interaction.");
                     var actionID = currentMap.getInteractionForDirection(player.direction);
                     loadActionFromServer(actionID, receiveAction);
                 } else {
-                    console.log("No interaction found.");
                 }
             }
             break;
@@ -121,6 +125,9 @@ function keyUp(evt) {
 }
 
 function goOrRotateTo(direction) {
+    if (isLoading) {
+        return;
+    }
     if (!isAnimating) {
         isAnimating = true;
         if (player.direction === direction) {
@@ -160,14 +167,13 @@ function animateMovement(direction, stepsToBeDone) {
             animateMovement(direction, stepsToBeDone - 2);
         });
     } else {
+
         isAnimating = false;
         currentMap.playerDidFinishMoving();
         player.render();
         if (currentMap.mayInteractAtCurrentPosition()) {
-            console.log("Interaction found at current position!!!");
             var actionID = currentMap.getInteractionForCurrentPosition();
             player.resetAnimation();
-            //TODO: block player interaction with the game until the action is retrieved
             loadActionFromServer(actionID, receiveAction);
         } else if (!(movementKeyPressed[MOVEMENT_KEYS.left] ||
             movementKeyPressed[MOVEMENT_KEYS.up] ||
@@ -179,6 +185,7 @@ function animateMovement(direction, stepsToBeDone) {
 }
 
 function loadActionFromServer(actionID, callback) {
+    isLoading = true;
     $.get(SERVER.concat('/action/' + actionID), function (data) {
         receiveAction(JSON.parse(data));
     });
@@ -186,7 +193,6 @@ function loadActionFromServer(actionID, callback) {
 
 function receiveAction(action) {
     currentAction = action;
-    console.log("Did load action from server: " + action);
     handleCurrentAction();
 }
 
@@ -199,6 +205,7 @@ function handleKeyWhileHandlingAction(evt) {
 }
 
 function handleCurrentAction() {
+    isLoading = false;
     switch (currentAction.type) {
         case ACTION_TYPES.SHOW_TEXT:
             updateDisplayedActionText();
@@ -230,10 +237,12 @@ function updateDisplayedActionText() {
     var text = getNextTextSection(currentAction.content, 85);
     if (text.length < currentAction.content.length) {
         var remainingContent = currentAction.content.substring(text.length);
-        console.log("Remainig content: " + remainingContent);
         currentAction.content = remainingContent;
     } else {
         currentAction.content = '';
+    }
+    if (text.indexOf(TEXT_SEPARATOR) > 0) {
+        text = text.substring(0, text.indexOf(TEXT_SEPARATOR));
     }
     if (currentAction.content.length > 0) {
         text = text.concat(' &#x25BC;');
@@ -244,11 +253,16 @@ function updateDisplayedActionText() {
 }
 
 function getNextTextSection(text, maxLength) {
-    if (text.length > maxLength) {
-        var splitPos = text.indexOf(' ', maxLength - 10);
-        if (splitPos > 0) {
-            return text.substring(0, splitPos);
+    var forcedSplitPos = text.indexOf(TEXT_SEPARATOR);
+    if (forcedSplitPos <= 0 || forcedSplitPos > maxLength) {
+        if (text.length > maxLength) {
+            var splitPos = text.indexOf(' ', maxLength - 10);
+            if (splitPos > 0) {
+                return text.substring(0, splitPos);
+            }
         }
+    } else if (forcedSplitPos > 0) {
+        return text.substring(0, forcedSplitPos + TEXT_SEPARATOR.length);
     }
     return text;
 }
