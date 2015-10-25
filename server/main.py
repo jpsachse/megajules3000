@@ -32,7 +32,7 @@ def show_user_profile(action_id):
     if action.type == "changeMap":
         map_manager.change_map_by_name(action.content)
     elif action.type == "showFact" and action.content == "":
-        try: 
+        try:
             action.content = map_manager.current_map.facts.pop()
         except IndexError:
             action.content = "Nothing interesting (Pool of facts is empty.)"
