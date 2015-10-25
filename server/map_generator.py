@@ -35,8 +35,6 @@ class MapGenerator:
                         next_action_tile = tile.get("next_action")
                         previous_action_object = new_action
                         while next_action_tile:
-                            print "hasNext"
-                            print next_action_tile
                             previous_action_object.next_action = current_action_index
                             new_action_object = Action(id=current_action_index, type=next_action_tile["action"], content=next_action_tile["content"])
                             result.actions.append(new_action_object)

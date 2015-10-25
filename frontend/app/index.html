@@ -31,12 +31,16 @@
 
     <div class="container">
       <div id="mainGameContainer" position="relative">
-        <div class="header text-center">
+        <div class="header text-center" position="absolute">
           <h1 class="text-muted engraved">MegaJules<i>3000</i></h1>
         </div>
-        <canvas id="gameCanvas" width="352px" height="352px"></canvas>
-        <div id="ingameText" width="352px" height="150px"></div>
-        <div class="powerLED" position="absolute"></div>
+        <canvas id="gameCanvas" width="352px" height="352px" position="absolute"></canvas>
+        <div id="ingameText" width="352px" height="150px" position="absolute"></div>
+        <div id="LEDGroup" position="absolute">
+          <div class="loadingLEDText">loading</div>
+          <div id="loadingLED" class="loadingLEDOff"></div>
+          <div class="powerLED"></div>
+        </div>
       </div>
 
       <div id="guessMe" class="hidden">

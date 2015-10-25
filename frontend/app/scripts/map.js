@@ -28,12 +28,6 @@ function Map (options) {
     };
 
     function imageLoadedFromServer(callback) {
-        // var imgInstance = new fabric.Image(img, {
-        //         width: instanceWidth,
-        //         height: instanceHeight,
-        //         top: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosY()), //5 because 11 is the width of the displayed map
-        //         left: TILE_SIZE * (5 - currentMap.getCurrentPlayerPosX())
-        //     });
         that.render();
         callback();
     }

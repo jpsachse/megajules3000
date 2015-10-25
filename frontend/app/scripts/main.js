@@ -32,13 +32,14 @@ var MINIGAMES = {
 var TEXT_SEPARATOR = '#newline#';
 
 $(document).ready(function () {
-    loadInformationFromServer();
+    loadMapFromServer();
     window.addEventListener('keydown', handleKey);
     window.addEventListener('keyup', keyUp);
 });
 
-function loadInformationFromServer() {
+function loadMapFromServer() {
     isLoading = true;
+    updateLoadingLED();
     currentMap = Map({
         context: canvas.getContext("2d")
     });
@@ -46,7 +47,6 @@ function loadInformationFromServer() {
 }
 
 function loadSpritesForPlayer() {
-//http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
     fabric.util.loadImage('images/sprites/player.png', function(img) {
         player = Player({
             context: canvas.getContext("2d"),
@@ -60,6 +60,12 @@ function loadSpritesForPlayer() {
         });
         player.render();
         isLoading = false;
+        updateLoadingLED();
+        if (currentMap.mayInteractAtCurrentPosition()) {
+            var actionID = currentMap.getInteractionForCurrentPosition();
+            player.resetAnimation();
+            loadActionFromServer(actionID, receiveAction);
+        }
     });
 }
 
@@ -184,16 +190,9 @@ function animateMovement(direction, stepsToBeDone) {
     }
 }
 
-function startDisplayingLoadingAnimation() {
-
-}
-
-function stopDisplayingLoadingAnimation() {
-
-}
-
 function loadActionFromServer(actionID, callback) {
     isLoading = true;
+    updateLoadingLED();
     $.get(SERVER.concat('/action/' + actionID), function (data) {
         receiveAction(JSON.parse(data));
     });
@@ -214,6 +213,7 @@ function handleKeyWhileHandlingAction(evt) {
 
 function handleCurrentAction() {
     isLoading = false;
+    updateLoadingLED();
     switch (currentAction.type) {
         case ACTION_TYPES.SHOW_TEXT:
         case ACTION_TYPES.SHOW_FACT:
@@ -229,7 +229,7 @@ function handleCurrentAction() {
         case ACTION_TYPES.CHANGE_MAP:
             console.log("Should load map: " + currentAction.content);
             currentAction = null;
-            loadInformationFromServer();
+            loadMapFromServer();
             break;
         case ACTION_TYPES.START_MINIGAME:
             console.log("Should start a minigame");
@@ -285,9 +285,27 @@ function startMinigame() {
 }
 
 function miniGameDidFinish(result) {
-    //TODO: handle the result
     var miniGameInfo = currentAction.content;
     $('#'+miniGameInfo.name).hide();
     $('#mainGameContainer').show();
+    var route = '/minigame/' + currentAction.id + '/' + result.highscore;
     currentAction = null;
+    console.log(route);
+    $.get(SERVER.concat(route), function(data) {
+        receiveAction(JSON.parse(data));
+    });
+}
+
+function updateLoadingLED() {
+    var led = $("#loadingLED");
+    if (isLoading) {
+        if (led.hasClass('loadingLEDOn')) {
+            led.removeClass('loadingLEDOn').addClass('loadingLEDOff');
+        } else {
+            led.removeClass('loadingLEDOff').addClass('loadingLEDOn');
+        }
+        window.setTimeout(updateLoadingLED, Math.floor(Math.random() * 500));
+    } else {
+        led.removeClass('loadingLEDOn').addClass('loadingLEDOff');
+    }
 }
