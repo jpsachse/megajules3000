@@ -107,18 +107,22 @@
 	    },
 	    "100": {
 	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
-	      "collision": false,
-	      "action": "changeMap",
-	      "content": "Alabastia",
-	      "shows": "exit"
-	    },
-	    "11": {
-	      "image": "images/npc_grass.png",
-	      "collision": true,
-	      "action": "showText",
-	      "content": "Hello, play a game.",
-	      "shows": "load_minigame_NPC",
-	      "next_action": {"action": "startMinigame","content": "{\"name\": \"guessMe\", \"data\":{\"solutions\": [\"Thor Heyerdahl\"], \"facts\": [[\"Is awesome\", \"Is crazy\", \"Is dead\"]]}}"}
+<<<<<<< HEAD
+          "collision": false,
+          "action": "startMinigame",
+          "content": {
+            "name": "guessMe", 
+            "entities":["Voyages_Extraordinaires", 
+                        "Around_the_World_in_Eighty_Days",
+                        "Nantes",
+                        "Paris",
+                        "France"
+                        ],
+            "next_action": {
+                "action": "changeMap",
+                "content": "Alabastia"
+            }
+          }
 	    },
 	    "12": {
 	      "image": "images/walls/left_bottom.png",
