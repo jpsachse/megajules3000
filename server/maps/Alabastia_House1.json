@@ -111,7 +111,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc/npc.png",
+	      "image": "images/npc/npc_wood.png",
 	      "collision": true,
 	      "action": "showText",
           "content": "Hello. Welcome to Alabastia.#newline#I love reading the signs. Listen to my wisdom: ",

@@ -113,7 +113,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc.png",
+	      "image": "images/npc_grass.png",
 	      "collision": true,
 	      "action": "showText",
 	      "content": "Hello, play a game.",

@@ -76,7 +76,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc/npc.png",
+	      "image": "images/npc/npc_wood.png",
 	      "collision": true,
 	      "action": "showText",
 	      "content": "Hello.newline#In this game it's all about one entity. Scattered around are random facts about it.#newline#Can you guess it?",
