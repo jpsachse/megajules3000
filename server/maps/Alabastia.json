@@ -118,7 +118,7 @@
       "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
       "collision": false,
       "action": "changeMap",
-      "content": "Big_Dorf",
+      "content": "Big_City",
       "shows": "ausgang"
     },
     "1": {
