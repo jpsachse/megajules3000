@@ -127,13 +127,13 @@
         "collision": false,
         "action": "showText",
         "content": "You will leave this place. Dead or alive. We will see.",
-        "next_action": {      
+        "next_action": {
               "action": "startMinigame",
-              "content": {"name": "guessMe", "entities":["Jules_Verne"]},
+              "content": {"name": "guessMe", "entities":["Angela_Merkel", "Thor_Heyerdahl"]},
               "next_action": {
                     "action": "changeMap",
                     "content": "Big_City"
-               }   
+               }
         }
     },
     "1": {
