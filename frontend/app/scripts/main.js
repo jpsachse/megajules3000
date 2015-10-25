@@ -47,7 +47,6 @@ function loadInformationFromServer() {
 }
 
 function loadSpritesForPlayer() {
-//http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/images/coin-sprite-animation-sprite-sheet.png
     fabric.util.loadImage('images/sprites/player.png', function(img) {
         player = Player({
             context: canvas.getContext("2d"),
