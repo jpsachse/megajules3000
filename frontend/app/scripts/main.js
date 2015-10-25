@@ -184,6 +184,14 @@ function animateMovement(direction, stepsToBeDone) {
     }
 }
 
+function startDisplayingLoadingAnimation() {
+
+}
+
+function stopDisplayingLoadingAnimation() {
+
+}
+
 function loadActionFromServer(actionID, callback) {
     isLoading = true;
     $.get(SERVER.concat('/action/' + actionID), function (data) {
@@ -269,18 +277,16 @@ function getNextTextSection(text, maxLength) {
 }
 
 function startMinigame() {
-    var miniGameInfo = JSON.parse(currentAction.content);
-    var miniGameData = miniGameInfo.data;
+    var miniGameInfo = currentAction.content;
     $('#'+miniGameInfo.name).fadeIn().removeClass('hidden');
     $('#mainGameContainer').hide();
     var miniGame = GuessMe();
-    miniGame.initializeGame(miniGameData, miniGameDidFinish);
+    miniGame.initializeGame(miniGameInfo, miniGameDidFinish);
 }
 
 function miniGameDidFinish(result) {
     //TODO: handle the result
-    var miniGameInfo = JSON.parse(currentAction.content);
-    var miniGameData = miniGameInfo.data;
+    var miniGameInfo = currentAction.content;
     $('#'+miniGameInfo.name).hide();
     $('#mainGameContainer').show();
     currentAction = null;
