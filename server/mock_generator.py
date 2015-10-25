@@ -16,6 +16,7 @@ class MockGenerator:
                 result = TileMap(width, height, "No Name", map["startX"], map["startY"])
             else:
                 result = TileMap(width, height)
+            result.entity = map["entity"]
             result.actions = []
             current_action_index = 0
             for w in range(0, width):

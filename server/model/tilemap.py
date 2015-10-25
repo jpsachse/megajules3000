@@ -3,11 +3,11 @@ from PIL import Image
 
 class TileMap():
 
-    def __init__(self, width, height, name="No Name", startX = -1, startY = -1):
+    def __init__(self, width, height, name="No Name", startX = -1, startY = -1, entity="Jules_Verne"):
         self.name = name
+        self.entity = entity
         self.matrix = list()
         self.actions = list()
-        self.facts = ["I'm a fact. A default fact."]
         self.generate_matrix(width, height)
         self.startX = startX
         self.startY = startY

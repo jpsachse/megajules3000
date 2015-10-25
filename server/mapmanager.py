@@ -33,7 +33,11 @@ class MapManager():
         for map in self.maps:
             if map.name == map_name:
                 return map
-
+    
+    def takeFactFromCurrentLevel(self):
+        return "No Fact"
+        #self.current_map.entity
+    
     def change_map_by_index(self, index):
         self.current_map = self.maps[index]
 
