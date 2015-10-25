@@ -10,6 +10,7 @@ CORS(app)
 
 map_manager = MapManager(map_directory="maps/")
 map_manager.change_map_by_index(0)
+map_manager.change_map_by_name("Dorf")
 
 @app.route('/current_map')
 def get_map():
@@ -24,7 +25,7 @@ def get_map():
 @app.route('/action/<action_id>')
 def show_user_profile(action_id):
     action = map_manager.current_map.actions[int(action_id)]
-    if action.type=="changeMap":
+    if action.type == "changeMap":
         map_manager.change_map_by_name(action.content)
     return json.dumps(action.__dict__)
 

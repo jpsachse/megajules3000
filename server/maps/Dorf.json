@@ -4,7 +4,7 @@
     [1, 0, 1, 1, 0, 3, 0, 0, 2],
     [1, 1, 4, 4, 4, 5, 4, 1, 2],
     [1, 1, 1, 2, 0, 3, 7, 3, 2],
-    [1, 0, 0, 1, 1, 3, 1, 3, 2],
+    [1, 0, 0, 1, 8, 3, 1, 3, 2],
     [1, 4, 4, 4, 4, 5, 4, 5, 2],
     [1, 2, 1, 1, 0, 3, 1, 0, 2],
     [1, 0, 0, 1, 0, 3, 1, 0, 2],
@@ -46,6 +46,13 @@
       "collision": false,
       "action": "showText",
       "content": "Hallo"
+    },
+    "8": {
+      "image": "images/hey_listen.png",
+      "collision": false,
+      "action": "showText",
+      "content": "Hallo",
+      "next_action": {"action": "changeMap", "content": "Alabastia"}
     }
   } 
 }
