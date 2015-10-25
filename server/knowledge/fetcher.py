@@ -56,7 +56,7 @@ class KnowledgeFetcher():
             self.label_cache[entity] = value
             return value
         except:
-            return entity
+            return entity.replace('_', ' ')
 
 
     def get_facts_for(self, entity):

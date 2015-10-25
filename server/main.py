@@ -1,4 +1,5 @@
 import json
+import random
 
 from flask import Flask, url_for
 from flask.ext.cors import CORS
@@ -8,8 +9,7 @@ from map_manager import MapManager
 app = Flask(__name__)
 CORS(app)
 
-map_manager = MapManager(map_directory="maps/", initial_map="Alabastia")
-map_manager.change_map_by_name("Big_City_House1")
+map_manager = MapManager(map_directory="maps/", initial_map="Big_City")
 
 @app.route('/current_map')
 def get_map():
@@ -31,10 +31,28 @@ def show_user_profile(action_id):
     if action.type == "changeMap":
         map_manager.change_map_by_name(action.content)
     elif action.type == "showFact" and action.content == "":
-        try: 
+        try:
             action.content = map_manager.takeFactFromCurrentLevel()
         except IndexError:
             action.content = "Nothing interesting (Pool of facts is empty.)"
+    elif action.type == "startMinigame":
+        if action.content["name"] == "guessMe":
+            facts = {}
+            print action.content
+            for entity in action.content["entities"]:
+                facts[entity] = []
+                temp_facts = map_manager.knowledge_fetcher.get_filtered_facts_for(entity)
+                for i in range(10):
+                    if len(temp_facts) > 0:
+                        pos = random.randint(0, len(temp_facts) - 1)
+                        facts[entity].append(temp_facts.pop(pos))
+            action.content["solutions"] = []
+            action.content["facts"] = []
+            for entity, entity_facts in facts.iteritems():
+                name = map_manager.knowledge_fetcher.get_label_for(entity)
+                print name
+                action.content["solutions"].append(name)
+                action.content["facts"].append(entity_facts)
     return json.dumps(action.__dict__)
 
 

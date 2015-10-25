@@ -184,6 +184,14 @@ function animateMovement(direction, stepsToBeDone) {
     }
 }
 
+function startDisplayingLoadingAnimation() {
+
+}
+
+function stopDisplayingLoadingAnimation() {
+
+}
+
 function loadActionFromServer(actionID, callback) {
     isLoading = true;
     $.get(SERVER.concat('/action/' + actionID), function (data) {
@@ -211,8 +219,8 @@ function handleCurrentAction() {
         case ACTION_TYPES.SHOW_FACT:
             updateDisplayedActionText();
             if ($('#ingameText').text().length === 0 && currentAction.content.length === 0) {
-                if (currentAction.nextAction !== null && typeof currentAction.nextAction !== "undefined") {
-                    loadActionFromServer(currentAction.nextAction, receiveAction);
+                if (currentAction.next_action !== null && typeof currentAction.next_action !== "undefined") {
+                    loadActionFromServer(currentAction.next_action, receiveAction);
                 } else {
                     currentAction = null;
                 }
@@ -269,18 +277,16 @@ function getNextTextSection(text, maxLength) {
 }
 
 function startMinigame() {
-    var miniGameInfo = JSON.parse(currentAction.content);
-    var miniGameData = miniGameInfo.data;
+    var miniGameInfo = currentAction.content;
     $('#'+miniGameInfo.name).fadeIn().removeClass('hidden');
     $('#mainGameContainer').hide();
     var miniGame = GuessMe();
-    miniGame.initializeGame(miniGameData, miniGameDidFinish);
+    miniGame.initializeGame(miniGameInfo, miniGameDidFinish);
 }
 
 function miniGameDidFinish(result) {
     //TODO: handle the result
-    var miniGameInfo = JSON.parse(currentAction.content);
-    var miniGameData = miniGameInfo.data;
+    var miniGameInfo = currentAction.content;
     $('#'+miniGameInfo.name).hide();
     $('#mainGameContainer').show();
     currentAction = null;
