@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var game = MemoryGame();
-    game.initializeGame(['images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png'],
+    game.initializeGame(['images/Game_Jam_2.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png', 'images/Game_Jam.png'],
      function() {});
 });
 
@@ -13,30 +13,30 @@ function MemoryGame() {
     var tiles = [];
     var flippedTiles = [];
     var isWaiting = false;
+    var ready = true;
 
     //cons
     var NUM_COLS = 5;
     var NUM_ROWS = 4;
+    var tileImages = new Array(NUM_COLS * NUM_ROWS);
+    var backImage = new Image
     var MARGIN_TILES = 10;
     var WIDTH = Math.floor(canvas.getWidth()/ NUM_COLS - MARGIN_TILES);
     var numFlipped = 0;
     
-    var Tile = function(x, y, face) {
+    var Tile = function(x, y, face, id) {
         this.x = x;
         this.y = y;
+        this.id =id;
         this.face = face;
+        tileImages[id] = new Image();
+        fabric.util.loadImage(face, function(img) {
+            tileImages[id] = img;
+            renderID(id);
+        });
     };
 
-    function render(x, y, face) {
-        fabric.util.loadImage(face, function(img) {
-                canvas.getContext("2d").drawImage(
-                    img,
-                    x,
-                    y,
-                    WIDTH,
-                    WIDTH
-                   );
-            });
+    function render(x, y, id) {
     }
 
     Tile.prototype.isUnderMouse = function(x, y) {
@@ -45,11 +45,35 @@ function MemoryGame() {
     };
 
     Tile.prototype.drawFaceDown = function() {
-        render(this.x, this.y, 'images/Game_Jam_2.png');
+        var id = this.id;
+        var x = this.x;
+        var y = this.y;
+
+        //canvas.getContext("2d").clearRect(x,y, x + backImage.width, y+ backImage.height);
+
+        canvas.getContext("2d").drawImage(
+            backImage,
+            x,
+            y,
+            WIDTH,
+            WIDTH
+        );
     };
 
     Tile.prototype.drawFaceUp = function() {
-        render(this.x, this.y, this.face);
+        var id = this.id;
+        var x = this.x;
+        var y = this.y;
+
+        //canvas.getContext("2d").clearRect(x,y, x + WIDTH, y+ WIDTH);
+
+        canvas.getContext("2d").drawImage(
+            tileImages[id],
+            x,
+            y,
+            WIDTH,
+            WIDTH
+        );
     };
 
 
@@ -78,8 +102,10 @@ function MemoryGame() {
             for (var i = 0; i < tiles.length; i++) {
                 if (numFlipped < 2 && tiles[i].isUnderMouse(mouseX, mouseY)) {
                     tiles[i].drawFaceUp();
-                    flippedTiles.push(tiles[i]);
-                    numFlipped++;
+                    if ($.inArray(tiles[i], flippedTiles) === -1) {
+                        flippedTiles.push(tiles[i]);
+                        numFlipped++;
+                    }
                 }
                 else
                 {
@@ -100,13 +126,17 @@ function MemoryGame() {
                         for (var k = 0; k < tiles.length; k++) {
                             tiles[k].drawFaceDown();
                         }
+
+                        if (tiles.length < 3)
+                        {
+                            console.log("Done");
+                            that.callback();
+                        }
                         
                         flippedTiles = [];
-                        numFlipped = 0;
                         isWaiting = false;
                     }, 2000);
-                    //break;
-                }
+                    numFlipped = 0;                }
             }
         }
     }
@@ -117,18 +147,32 @@ function MemoryGame() {
         var order = getFaceOrder(data);
         for (var i = 0; i < NUM_COLS; i++) {
             for (var j = 0; j < NUM_ROWS; j++) {
-                tiles.push(new Tile(i * (WIDTH + MARGIN_TILES) + 10, (WIDTH + MARGIN_TILES) * j + 40, order.pop()));
+                tiles.push(new Tile(i * (WIDTH + MARGIN_TILES) + 10, (WIDTH + MARGIN_TILES) * j + 40, order.shift(), i * j + i));
             }
         }
 
-        for (var k = 0; k < tiles.length; k++) {
-            tiles[k].drawFaceDown();
-        }
+        fabric.util.loadImage("images/Game_Jam_2.png", function(img) {
+            backImage = img;
+            renderAllDown();
+        });
     };
 
+    function renderID(id) {
+        //tiles[id].drawFaceUp();
+    }
+
+    function renderAllDown() {
+        for (var i = 0; i < tiles.length; i++) {
+            tiles[i].drawFaceDown();
+        }
+    }
+
+
     canvas.on('mouse:down', function(options) {
-        console.log(options.e.layerX, options.e.layerY);
-        mouseClicked(options.e.layerX, options.e.layerY);
+        if (!isWaiting) {
+            console.log(options.e.layerX, options.e.layerY);
+            mouseClicked(options.e.layerX, options.e.layerY);
+        }
     });
 
     return that;
