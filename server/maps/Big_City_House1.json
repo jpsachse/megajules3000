@@ -70,7 +70,7 @@
 	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
 	      "collision": false,
 	      "action": "changeMap",
-	      "content": "Big_City",
+	      "content": "Big_City_from_House1",
 	      "shows": "exit"
 	    },
 	    "11": {
