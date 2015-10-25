@@ -100,7 +100,7 @@
 	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
 	      "collision": false,
 	      "action": "changeMap",
-	      "content": "Alabastia",
+	      "content": "Alabastia_from_House2",
 	      "shows": "exit"
 	    },
 	    "100": {

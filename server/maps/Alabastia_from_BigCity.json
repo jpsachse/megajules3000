@@ -1,0 +1,202 @@
+{
+  "entity": "Angela_Merkel",
+  "map": [
+    [57,42,42,42,42,42,42,42,7,7,42,42,42,42,42,42,42,42,42,58],
+    [41,0,8,0,0,0,0,0,1,1,10,0,0,100,0,0,0,0,0,41],
+    [41,0,0,0,0,0,0,10,1,1,0,0,8,0,0,0,0,0,0,41],
+    [41,0,0,62,6,6,61,0,1,1,0,0,0,62,6,6,61,0,0,41],
+    [41,0,0,65,66,66,64,0,1,1,0,0,0,65,66,66,64,0,0,41],
+    [41,0,0,52,5,5,51,0,1,1,0,0,0,52,5,5,51,0,0,41],
+    [41,0,0,32,44,3,31,0,1,1,0,0,0,32,49,3,31,0,0,41],
+    [41,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,9,0,0,0,0,1,1,0,8,0,0,0,10,0,1,1,0,41],
+    [41,0,8,0,0,9,0,1,1,0,0,0,0,8,0,0,1,1,0,41],
+    [41,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,0,41],
+    [41,0,0,11,12,0,0,1,1,0,62,6,6,6,6,61,1,1,0,41],
+    [41,0,0,13,14,0,0,1,1,0,65,66,66,66,66,64,1,1,0,41],
+    [41,0,0,0,0,0,0,1,1,0,52,5,5,5,5,51,1,1,0,41],
+    [41,0,0,0,0,0,0,1,1,0,32,5,48,5,5,31,1,1,0,41],
+    [41,101,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,11,12,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,41],
+    [41,0,13,14,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,41],
+    [73,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,74]
+  ],
+    "startX": 8,
+    "startY": 1,
+    "tiles": {
+    "57": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (57).png",
+      "collision": true,
+      "shows": "upper left edge"
+    },
+    "58": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (58).png",
+      "collision": true,
+      "shows": "upper right edge"
+    },
+    "73": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (73).png",
+      "collision": true,
+      "shows": "lower left edge"
+    },
+    "74": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (74).png",
+      "collision": true,
+      "shows": "lower right edge"
+    },
+    "42": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (42).png",
+      "collision": true,
+      "shows": "horizontal edge"
+    },
+    "41": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (41).png",
+      "collision": true,
+      "shows": "vertical edge"
+    },
+    "3": {
+      "image": "images/walls/bottom.png",
+      "collision": true,
+      "shows": "wall"
+    },
+    "31": {
+      "image": "images/walls/right_bottom.png",
+      "collision": true,
+      "shows": "wall"
+    },
+    "32": {
+      "image": "images/walls/left_bottom.png",
+      "collision": true,
+      "shows": "wall"
+    },
+    "4": {
+      "image": "images/walls/door.png",
+      "collision": false
+    },
+    "48": {
+      "image": "images/walls/door.png",
+      "collision": false,
+      "action": "changeMap",
+      "content": "Alabastia_Lab",
+      "shows": "labEntrance"
+    },    
+    "49": {
+      "image": "images/walls/door.png",
+      "collision": false,
+      "action": "changeMap",
+      "content": "Alabastia_House1"
+    },    
+    "44": {
+      "image": "images/walls/door.png",
+      "collision": false,
+      "action": "changeMap",
+      "content": "Alabastia_House2"
+    },
+    "6": {
+      "image": "images/roof/top.png",
+      "collision": true
+    },
+    "61": {
+      "image": "images/roof/right_top.png",
+      "collision": true
+    },
+    "62": {
+      "image": "images/roof/left_top.png",
+      "collision": true
+    },
+    "63": {
+      "image": "images/roof/roof_red.png",
+      "collision": true
+    },
+    "64": {
+      "image": "images/roof/right.png",
+      "collision": true
+    },
+    "65": {
+      "image": "images/roof/left.png",
+      "collision": true
+    },
+    "66": {
+      "image": "images/roof/roof_red.png",
+      "collision": true
+    },
+    "5": {
+      "image": "images/walls/window.png",
+      "collision": true
+    },
+    "51": {
+      "image": "images/walls/window_right.png",
+      "collision": true
+    },
+    "52": {
+      "image": "images/walls/window_left.png",
+      "collision": true
+    },
+    "7": {
+        "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+        "shows": "ausgang",
+        "collision": false,
+        "action": "showText",
+        "content": "You will leave this place. Dead or alive. We will see.",
+        "next_action": {
+              "action": "startMinigame",
+              "content": {"name": "guessMe", "entities":["Angela_Merkel", "Thor_Heyerdahl"]},
+              "next_action": {
+                    "action": "changeMap",
+                    "content": "Big_City"
+               }
+        }
+    },
+    "1": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+      "collision": false,
+      "shows": "straße"
+    },
+    "0": {
+      "image": "images/grass.png",
+      "collision": false,
+      "shows": "grass"
+    },
+    "8": {
+      "image": "images/outdoor/blue_bush.png",
+      "collision": true
+    },
+    "9": {
+      "image": "images/outdoor/red_bush.png",
+      "collision": true
+    },
+    "10": {
+      "image": "images/outdoor/tall_grass_patch.png",
+      "collision": false
+    },
+    "11": {
+      "image": "images/outdoor/big_bush_lt.png",
+      "collision": true
+    },
+    "12": {
+      "image": "images/outdoor/big_bush_rt.png",
+      "collision": true
+    },
+    "13": {
+      "image": "images/outdoor/big_bush_lb.png",
+      "collision": true
+    },
+    "14": {
+      "image": "images/outdoor/big_bush_rb.png",
+      "collision": true
+    },
+    "100": {
+      "image": "images/sign.png",
+      "collision": true,
+      "action": "showText",
+      "content": "If you leave, you will be tested.#newline#Be prepared!"
+    },
+    "101": {
+      "image": "images/sign.png",
+      "collision": true,
+      "action": "showFact",
+      "content":""
+     }
+  }
+}
