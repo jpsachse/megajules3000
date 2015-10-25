@@ -79,7 +79,7 @@
 	      "image": "images/npc/npc_wood.png",
 	      "collision": true,
 	      "action": "showText",
-	      "content": "Hello.newline#In this game it's all about one entity. Scattered around are random facts about it.#newline#Can you guess it?",
+	      "content": "Hello.#newline#In this game it's all about one entity. Scattered around are random facts about it.#newline#Can you guess it? Here's the first one:",
 	      "shows": "npc with fact",
 	      "next_action": {"action": "showFact","content": ""}
 	    },
@@ -133,10 +133,6 @@
 	      "shows": "wall"
 	    },
 	    "22": {
-	      "image": "images/roof/top.png",
-	      "collision": true
-	    },
-	    "22": {
 	      "image": "images/roof/left_bottom.png",
 	      "collision": true
 	    },
@@ -185,7 +181,7 @@
 	      "content" : "Hey!#newline#Don't touch my stuff!"
 	    },
 	    "33": {
-	      "image": "images/interior/chair_facing_right.png",
+	      "image": "images/interior/chair_facing_right_with_floor.png",
 	      "collision": false
 	    }
   	}

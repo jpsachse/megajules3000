@@ -1,31 +1,24 @@
 {
-    "entity": "Jules_Verne",
-    "startX": 6,
-    "startY": 8,
   	"map": [
-        [30,30,30,30,30,30,30,30,30,30,30],
+		[30,30,30,30,30,30,30,30,30,30,30],
         [30,30,30,30,30,30,30,30,30,30,30],
         [30,30,2,5,5,5,5,5,6,30,30],
-        [30,30,3,11,0,0,0,0,3,30,30],
         [30,30,3,0,0,0,0,0,3,30,30],
         [30,30,3,0,0,0,0,0,3,30,30],
-        [30,30,3,0,0,100,100,0,3,30,30],
-        [30,30,3,0,100,0,100,0,3,30,30],
+        [30,30,3,0,0,0,0,11,3,30,30],
+        [30,30,3,0,0,0,0,0,3,30,30],
+        [30,30,3,0,0,0,0,0,3,30,30],
         [30,30,4,5,5,10,5,5,7,30,30],
         [30,30,30,30,30,30,30,30,30,30,30],
         [30,30,30,30,30,30,30,30,30,30,30]
-    ],
+	],
+    "startX": 6,
+    "startY": 8,
+	"entity" : "Jules_Verne",
 	"tiles": {
-	    "0": {
+	     "0": {
 	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
 	      "collision": false,
-	      "shows": "floor"
-	    },
-	    "100": {
-	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
-	      "collision": false,
-          "action": "showText",
-          "content": "Nice that you are here. I can teach you a lot of things.",
 	      "shows": "floor"
 	    },
 	    "1": {
@@ -68,42 +61,61 @@
 		  "collision": false,
 	      "shows": "door"
 	    },
+	    "81": {
+	      "image": "images/walls/door.png",
+		  "collision": false,
+	      "action": "changeMap",
+	      "content": "Big_City_House1",
+	      "shows": "door"
+	    },
+	    "82": {
+	      "image": "images/walls/door.png",
+		  "collision": false,
+	      "action": "changeMap",
+	      "content": "Big_City_House2",
+	      "shows": "door"
+	    },
 	    "9": {
 	      "image": "images/sign.png",
 		  "collision": true,
 	      "action": "showFact",
-	      "content": "BlaBla",
+	      "content": "",
+	      "shows": "sign"
+	    },
+	    "91": {
+	      "image": "images/sign.png",
+		  "collision": true,
+	      "action": "showText",
+	      "content": "Closed!",
+	      "shows": "sign"
+	    },
+	    "92": {
+	      "image": "images/sign.png",
+		  "collision": true,
+	      "action": "showText",
+	      "content": "Told ya!",
 	      "shows": "sign"
 	    },
 	    "10": {
 	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
 	      "collision": false,
 	      "action": "changeMap",
-	      "content": "Big_City",
+	      "content": "Alabastia",
+	      "shows": "exit"
+	    },
+	    "100": {
+	      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+	      "collision": false,
+	      "action": "changeMap",
+	      "content": "Maze",
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc_wood.png",
+	      "image": "images/npc/npc.png",
 	      "collision": true,
 	      "action": "showText",
-	      "content": "Hello, nice to see you.",
-	      "shows": "npc with fact",
-	      "next_action": {  "action": "showFact",
-                            "content": "",
-                            "next_action":
-                                {   "action": "showText",
-                                    "content": "Interesting, isn't it? And this: ",
-                                    "next_action":
-                                    {
-                                        "action": "showFact",
-                                        "content": "",
-                                         "next_action":
-                                        {   "action": "showText",
-                                            "content": " You are really nice. Thank you for visiting me."
-                                        }
-                                    }
-                                }
-                            }
+          "content": "Hello. Welcome to Alabastia. We love to have visitors. Feel free to talk to us. We have al lot to tell.#newline#...#newline#I love playing card games. Maybe we can play memory together. ",
+          "next_maybe": {"action": "playCards","content": ""}
 	    },
 	    "12": {
 	      "image": "images/walls/left_bottom.png",
@@ -155,7 +167,11 @@
 	      "shows": "wall"
 	    },
 	    "22": {
-	      "image": "images/roof/left_bottom.png",
+	      "image": "images/roof/top.png",
+	      "collision": true
+	    },
+	    "22": {
+	      "image": "images/roof/left.png",
 	      "collision": true
 	    },
 	    "23": {
@@ -163,7 +179,7 @@
 	      "collision": true
 	    },
 	    "24": {
-	      "image": "images/roof/right_bottom.png",
+	      "image": "images/roof/right.png",
 	      "collision": true
 	    },
 	    "25": {
@@ -188,7 +204,21 @@
 	    },
 	    "30": {
 	      "image": "images/black.png",
-	      "collision": true
+          "collision": true
+	    },
+	    "31": {
+	      "image": "images/hey_listen.png",
+		  "collision": false,
+	      "action": "showText",
+	      "content": "Go Back!",
+	      "shows": "infoText"
+	    },
+	    "32": {
+	      "image": "images/hey_listen.png",
+		  "collision": false,
+	      "action": "showText",
+	      "content": "Do you really want to know?",
+	      "shows": "infoText"
 	    }
   	}
 }

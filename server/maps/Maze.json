@@ -170,10 +170,6 @@
 	      "shows": "wall"
 	    },
 	    "22": {
-	      "image": "images/roof/top.png",
-	      "collision": true
-	    },
-	    "22": {
 	      "image": "images/roof/left.png",
 	      "collision": true
 	    },
