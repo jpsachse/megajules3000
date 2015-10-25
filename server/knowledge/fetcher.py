@@ -1,15 +1,28 @@
 # -*- coding: utf-8 -*-
 
+import json
+
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
 class KnowledgeFetcher():
 
+    FACT_CACHE_FILE = "../tmp/fact.cache"
+
     def __init__(self):
         self.sparql = SPARQLWrapper("http://dbpedia.org/sparql")
         self.prefix = "http://dbpedia.org/resource/"
         self.sparql.setReturnFormat(JSON)
+        self.facts_cache = self.get_cache()
         self.label_cache = dict()
+
+
+    def get_cache(self):
+        try:
+            with open(KnowledgeFetcher.FACT_CACHE_FILE) as f:
+                return json.load(f)
+        except:
+            return dict()
 
 
     def get_info_for(self, entity):
@@ -31,9 +44,9 @@ class KnowledgeFetcher():
         if self.label_cache.has_key(entity):
             return self.label_cache.get(entity)
         self.sparql.setQuery(
-        "select ?label \
-        where { \
-            <" + entity + "> <http://www.w3.org/2000/01/rdf-schema#label> ?label \
+            "select ?label \
+            where { \
+                <" + entity + "> <http://www.w3.org/2000/01/rdf-schema#label> ?label \
             FILTER (langMatches(lang(?label),\"en\")) \
         }")
         try:
@@ -74,12 +87,14 @@ class KnowledgeFetcher():
     @staticmethod
     def accepts(fact):
         return len(fact) > 10 and \
-            len(fact.split("/")) < 3 and \
-            not ("influences" in fact) and \
-            not ("abstract" in fact)
+               len(fact.split("/")) < 3 and \
+               not ("influences" in fact) and \
+               not ("abstract" in fact)
 
 
     def get_filtered_facts_for(self, entity):
+        if self.facts_cache.has_key(entity):
+            return self.facts_cache.get(entity)
         try:
             label = self.get_label_for(self.prefix + entity)
         except:
@@ -88,5 +103,5 @@ class KnowledgeFetcher():
         for raw_fact in self.get_formatted_facts_for(entity, label):
             if KnowledgeFetcher.accepts(raw_fact):
                 facts.append(raw_fact)
+        self.facts_cache[entity] = facts
         return facts
-
