@@ -21,8 +21,12 @@ var MOVEMENT_KEYS = {
 var SERVER = "http://localhost:4242";
 var ACTION_TYPES = {
     'SHOW_TEXT': 'showText',
-    'CHANGE_MAP': 'changeMap'
+    'CHANGE_MAP': 'changeMap',
+    'START_MINIGAME': 'startMinigame'
 };
+var MINIGAMES = {
+    'GUESSME': 'guessMe'
+}
 
 $(document).ready(function () {
     loadInformationFromServer();
@@ -188,7 +192,9 @@ function receiveAction(action) {
 
 function handleKeyWhileHandlingAction(evt) {
     if (evt.keyCode === 13) { // "Return"-Key
-        handleCurrentAction();
+        if (currentAction.type !== ACTION_TYPES.START_MINIGAME) {
+            handleCurrentAction();
+        }
     }
 }
 
@@ -208,6 +214,10 @@ function handleCurrentAction() {
             console.log("Should load map: " + currentAction.content);
             currentAction = null;
             loadInformationFromServer();
+            break;
+        case ACTION_TYPES.START_MINIGAME:
+            console.log("Should start a minigame");
+            startMinigame();
             break;
         default:
             console.log("Cannot handle action of type " + currentAction.type);
@@ -241,4 +251,22 @@ function getNextTextSection(text, maxLength) {
         }
     }
     return text;
+}
+
+function startMinigame() {
+    var miniGameInfo = JSON.parse(currentAction.content);
+    var miniGameData = miniGameInfo.data;
+    $('#'+miniGameInfo.name).fadeIn().removeClass('hidden');
+    $('#mainGameContainer').hide();
+    var miniGame = GuessMe();
+    miniGame.initializeGame(miniGameData, miniGameDidFinish);
+}
+
+function miniGameDidFinish(result) {
+    //TODO: handle the result
+    var miniGameInfo = JSON.parse(currentAction.content);
+    var miniGameData = miniGameInfo.data;
+    $('#'+miniGameInfo.name).hide();
+    $('#mainGameContainer').show();
+    currentAction = null;
 }

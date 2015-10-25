@@ -1,6 +1,6 @@
 {
   "map": [
-    [57,42,42,42,42,42,42,42,7,7,42,42,42,42,42,42,42,42,42,58],
+    [57,42,42,42,42,42,42,42,7,99,42,42,42,42,42,42,42,42,42,58],
     [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,41],
     [41,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,41],
     [41,0,0,62,6,6,61,0,1,1,0,0,0,62,6,6,61,0,0,41],
@@ -123,6 +123,13 @@
       "image": "images/grass.png",
       "collision": false,
       "shows": "grass"
+    },
+    "99": {
+      "image": "images/RPG Maker VX ModernRTP TileA2/split/_ (111).png",
+      "collision": false,
+      "action": "startMinigame",
+      "content": "{\"name\": \"guessMe\", \"data\":{\"solutions\": [\"Thor Heyerdahl\"], \"facts\": [[\"Is awesome\", \"Is crazy\", \"Is dead\"]]}}",
+      "shows": "load_minigame"
     }
   }
 }

@@ -39,7 +39,7 @@
         <div id="ingameText" width="352px" height="150px"></div>
       </div>
 
-      <div id="miniGame1Container" class="hidden">
+      <div id="guessMe" class="hidden">
         <div id="factDiv">
             <ul id="factList" class="list-group">
             </ul>
@@ -47,14 +47,14 @@
         <div id="guessDiv" class="form-div">
             <label id="guessLabel" class="control-label" for="solutionInput">Click the blue button, please.</label>
             <div class="input-group">
-                <input type="text" class="form-control" id="solutionInput" placeholder="It is...">
+                <input type="text" class="form-control" id="guessMeSolutionInput" placeholder="It is...">
                 <span class="input-group-btn">
-                    <button class="btn btn-default form-control" type="button" onclick="checkSolution(document.getElementById('solutionInput').value)">Go!</button>
+                    <button id="guessMeCheckResultBtn" class="btn btn-default form-control" type="button">Go!</button>
                 </span>
             </div>
         </div>
         <div>
-            <button id="startButton" class="btn btn-primary" type="button" onclick="startGame()">Start Game</button>
+            <button id="startButton" class="btn btn-primary" type="button">Start Game</button>
         </div>
         <div>
             <h2 id="time" class="text-center"></h2>
@@ -100,15 +100,5 @@
     <!-- build:js scripts/guess.js -->
     <script src="scripts/guess.js"></script>
     <!-- endbuild -->
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
   </body>
 </html>
