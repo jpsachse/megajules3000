@@ -5,7 +5,8 @@ from model.tile import Tile
 from model.action import Action
 
 
-class MockGenerator:
+class MapGenerator:
+
     def generate_map(self, map_file):
         with open(map_file) as f:
             map = json.load(f)
@@ -16,6 +17,7 @@ class MockGenerator:
                 result = TileMap(width, height, "No Name", map["startX"], map["startY"])
             else:
                 result = TileMap(width, height)
+            result.entity = map["entity"]
             result.actions = []
             current_action_index = 0
             for h in range(0, height):
