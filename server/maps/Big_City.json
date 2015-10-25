@@ -138,7 +138,7 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc.png",
+	      "image": "images/npc/npc.png",
 	      "collision": true,
 	      "action": "showText",
 	      "content": "Hello, play a game.",
