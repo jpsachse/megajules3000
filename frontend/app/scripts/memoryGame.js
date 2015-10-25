@@ -11,22 +11,23 @@ function MemoryGame() {
     var canvas = new fabric.Canvas('memoryGameCanvas');
 
     var tiles = [];
+    var flippedTiles = [];
+    var isWaiting = false;
 
     //cons
     var NUM_COLS = 5;
     var NUM_ROWS = 4;
     var MARGIN_TILES = 10;
     var WIDTH = Math.floor(canvas.getWidth()/ NUM_COLS - MARGIN_TILES);
+    var numFlipped = 0;
     
     var Tile = function(x, y, face) {
-        var image;
         this.x = x;
         this.y = y;
         this.face = face;
     };
 
     function render(x, y, face) {
-        console.log(WIDTH);
         fabric.util.loadImage(face, function(img) {
                 canvas.getContext("2d").drawImage(
                     img,
@@ -38,10 +39,19 @@ function MemoryGame() {
             });
     }
 
+    Tile.prototype.isUnderMouse = function(x, y) {
+        return x >= this.x && x <= this.x + WIDTH  &&
+            y >= this.y && y <= this.y + WIDTH;
+    };
+
     Tile.prototype.drawFaceDown = function() {
-        console.log(this.y);
+        render(this.x, this.y, 'images/Game_Jam_2.png');
+    };
+
+    Tile.prototype.drawFaceUp = function() {
         render(this.x, this.y, this.face);
     };
+
 
     function getFaceOrder(facePath){
         var order = [];
@@ -63,8 +73,42 @@ function MemoryGame() {
         return order;
     }
 
-    function createTiles(order) {
-        
+    function mouseClicked(mouseX, mouseY) {
+        if (!isWaiting) {
+            for (var i = 0; i < tiles.length; i++) {
+                if (numFlipped < 2 && tiles[i].isUnderMouse(mouseX, mouseY)) {
+                    tiles[i].drawFaceUp();
+                    flippedTiles.push(tiles[i]);
+                    numFlipped++;
+                }
+                else
+                {
+                    if ($.inArray(tiles[i], flippedTiles) !== -1) {
+                        tiles[i].drawFaceUp();
+                    } else {
+                        tiles[i].drawFaceDown();
+                    }
+                }
+                if (numFlipped === 2) {
+                    isWaiting = true;
+                    window.setTimeout(function() {
+                        if (flippedTiles[0].face === flippedTiles[1].face) {
+                            tiles.splice(tiles.indexOf(flippedTiles[0]), 1);
+                            tiles.splice(tiles.indexOf(flippedTiles[1]), 1);
+                        }
+                        
+                        for (var k = 0; k < tiles.length; k++) {
+                            tiles[k].drawFaceDown();
+                        }
+                        
+                        flippedTiles = [];
+                        numFlipped = 0;
+                        isWaiting = false;
+                    }, 2000);
+                    //break;
+                }
+            }
+        }
     }
 
     that.initializeGame = function(data, callback) {
@@ -80,8 +124,12 @@ function MemoryGame() {
         for (var k = 0; k < tiles.length; k++) {
             tiles[k].drawFaceDown();
         }
-        
     };
+
+    canvas.on('mouse:down', function(options) {
+        console.log(options.e.layerX, options.e.layerY);
+        mouseClicked(options.e.layerX, options.e.layerY);
+    });
 
     return that;
 
