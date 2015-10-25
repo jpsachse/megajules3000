@@ -4,17 +4,17 @@
         [30,30,30,30,30,30,30,30,30,30,30],
         [30,30,30,30,30,30,30,30,30,30,30],
         [30,30,2,5,5,5,5,5,6,30,30],
-        [30,30,3,0,0,0,0,0,3,30,30],
+        [30,30,3,0,0,32,0,0,3,30,30],
         [30,30,3,0,0,0,0,0,3,30,30],
         [30,30,3,0,11,31,0,0,3,30,30],
-        [30,30,3,0,0,0,0,0,3,30,30],
+        [30,30,3,33,0,0,0,0,3,30,30],
         [30,30,3,0,0,0,0,0,3,30,30],
         [30,30,4,5,5,10,5,5,7,30,30],
         [30,30,30,30,30,30,30,30,30,30,30],
         [30,30,30,30,30,30,30,30,30,30,30]
     ],
     "startX" : 5,
-    "startY" : 4,
+    "startY" : 5,
 	"tiles": {
 	    "0": {
 	      "image": "images/RPG Maker Wooden Floor/split/_ (64).png",
@@ -76,10 +76,10 @@
 	      "shows": "exit"
 	    },
 	    "11": {
-	      "image": "images/npc.png",
+	      "image": "images/npc/npc.png",
 	      "collision": true,
 	      "action": "showText",
-	      "content": "Hello, listen to me.",
+	      "content": "Hello.newline#In this game it's all about one entity. Scattered around are random facts about it.#newline#Can you guess it?",
 	      "shows": "npc with fact",
 	      "next_action": {"action": "showFact","content": ""}
 	    },
@@ -177,6 +177,16 @@
 	      "collision": false,
 	      "action" : "showText",
 	      "content" : "Greetings, Human! #newline#You should talk to the professor to know more about the world you just jumped in."
+	    },
+	    "32": {
+	      "image": "images/interior/small_shelf.png",
+	      "collision": true,
+	      "action" : "showText",
+	      "content" : "Hey!#newline#Don't touch my stuff!"
+	    },
+	    "33": {
+	      "image": "images/interior/chair_facing_right.png",
+	      "collision": false
 	    }
   	}
 }
