@@ -22,6 +22,7 @@ var MOVEMENT_KEYS = {
 var SERVER = "http://localhost:4242";
 var ACTION_TYPES = {
     'SHOW_TEXT': 'showText',
+    'SHOW_FACT': 'showFact',
     'CHANGE_MAP': 'changeMap',
     'START_MINIGAME': 'startMinigame'
 };
@@ -207,6 +208,7 @@ function handleCurrentAction() {
     isLoading = false;
     switch (currentAction.type) {
         case ACTION_TYPES.SHOW_TEXT:
+        case ACTION_TYPES.SHOW_FACT:
             updateDisplayedActionText();
             if ($('#ingameText').text().length === 0 && currentAction.content.length === 0) {
                 if (currentAction.nextAction !== null && typeof currentAction.nextAction !== "undefined") {
