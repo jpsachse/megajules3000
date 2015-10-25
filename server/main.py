@@ -16,6 +16,10 @@ map_manager.change_map_by_index(0)
 def get_map():
     map = map_manager.current_map
     response = dict()
+    if map.startX >= 0:
+        response['startX'] = map.startX
+    if map.startY >= 0:
+        response['startY'] = map.startY
     response["name"] = map.name
     map.as_image(map_manager.directory).save("static/" + map.name + ".png")
     response["objects"] = url_for('static', filename=map.name+'.png')

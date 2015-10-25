@@ -167,7 +167,6 @@ function animateMovement(direction, stepsToBeDone) {
             animateMovement(direction, stepsToBeDone - 2);
         });
     } else {
-
         isAnimating = false;
         currentMap.playerDidFinishMoving();
         player.render();
