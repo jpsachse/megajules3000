@@ -32,12 +32,12 @@ var MINIGAMES = {
 var TEXT_SEPARATOR = '#newline#';
 
 $(document).ready(function () {
-    loadInformationFromServer();
+    loadMapFromServer();
     window.addEventListener('keydown', handleKey);
     window.addEventListener('keyup', keyUp);
 });
 
-function loadInformationFromServer() {
+function loadMapFromServer() {
     isLoading = true;
     updateLoadingLED();
     currentMap = Map({
@@ -61,6 +61,11 @@ function loadSpritesForPlayer() {
         player.render();
         isLoading = false;
         updateLoadingLED();
+        if (currentMap.mayInteractAtCurrentPosition()) {
+            var actionID = currentMap.getInteractionForCurrentPosition();
+            player.resetAnimation();
+            loadActionFromServer(actionID, receiveAction);
+        }
     });
 }
 
@@ -224,7 +229,7 @@ function handleCurrentAction() {
         case ACTION_TYPES.CHANGE_MAP:
             console.log("Should load map: " + currentAction.content);
             currentAction = null;
-            loadInformationFromServer();
+            loadMapFromServer();
             break;
         case ACTION_TYPES.START_MINIGAME:
             console.log("Should start a minigame");
