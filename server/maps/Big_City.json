@@ -103,21 +103,21 @@
 	      "shows": "door"
 	    },
 	    "9": {
-	      "image": "images/sign.png",
+	      "image": "images/signs/on_street.png",
 		  "collision": true,
 	      "action": "showFact",
 	      "content": "",
 	      "shows": "sign"
 	    },
 	    "91": {
-	      "image": "images/sign.png",
+	      "image": "images/signs/on_street.png",
 		  "collision": true,
 	      "action": "showText",
 	      "content": "Closed!",
 	      "shows": "sign"
 	    },
 	    "92": {
-	      "image": "images/sign.png",
+	      "image": "images/signs/on_street.png",
 		  "collision": true,
 	      "action": "showText",
 	      "content": "Told ya!",
