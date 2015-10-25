@@ -34,13 +34,16 @@ class MapGenerator:
                                                    , action_index=new_index)
                         current_action_index += 1
                         next_action = tile.get("next_action")
-                        previous_action = new_action
+                        previous_action = tile
+                        previous_action_object = new_action
                         while next_action:
                             new_index = current_action_index
-                            previous_action.next_action = new_index
-                            result.actions.append(Action(id=new_index, type=tile_action_type, content=tile["content"]))
+                            previous_action_object.next_action = new_index
+                            new_action_object = Action(id=new_index, type=tile_action_type, content=tile["content"])
+                            result.actions.append(new_action_object)
                             current_action_index += 1
                             previous_action = next_action
+                            previous_action_object  = new_action_object
                             next_action = next_action.get("next_action")
                     else:
                         result.matrix[h][w] = Tile(image=tile["image"]

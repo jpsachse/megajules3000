@@ -9,6 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 map_manager = MapManager(map_directory="maps/", initial_map="Alabastia")
+map_manager.change_map_by_name("Big_City_House2")
 
 @app.route('/current_map')
 def get_map():
