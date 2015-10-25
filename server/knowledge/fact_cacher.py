@@ -1,4 +1,4 @@
-import json
+import json, sys
 
 from fetcher import KnowledgeFetcher
 
@@ -18,3 +18,8 @@ class FactCacher():
     def cache_all(self, entities):
         for entity in entities:
             self.cache(entity)
+
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    FactCacher().cache_all(args)
