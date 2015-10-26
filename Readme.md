@@ -1,5 +1,7 @@
 # MegaJules*3000*
 
+![Screenshot](https://raw.githubusercontent.com/jpsachse/megajules3000/master/screenshot.png)
+
 ## Why is this?
 This little project was created during the [WikiMedia GameJam 2015](https://www.wikimedia.de/wiki/Game_Jam/Info).
 The task was to create a prototypic game implementation using free knowledge.
